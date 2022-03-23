@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": "juliangruber/node-core-test",
   "scripts": {
-    "test": "prettier-standard && standard"
+    "test": "prettier-standard && standard && node test"
   },
   "devDependencies": {
     "prettier-standard": "^16.4.1",
