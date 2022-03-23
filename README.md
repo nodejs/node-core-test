@@ -1,5 +1,7 @@
 # node-core-test
 
+[![CI](https://github.com/juliangruber/node-core-test/actions/workflows/ci.yml/badge.svg)](https://github.com/juliangruber/node-core-test/actions/workflows/ci.yml)
+
 This is a user-land port of [`node:test`](https://github.com/nodejs/node/blob/b476b1b91ef8715f096f815db5a0c8722b613678/doc/api/test.md),
 the experimental test runner introduced in Node.js 18. This module makes it
 available in Node.js 16 and later.
