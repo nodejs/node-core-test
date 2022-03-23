@@ -102,6 +102,11 @@ $ echo $?
 
 https://github.com/nodejs/node/blob/b476b1b91ef8715f096f815db5a0c8722b613678/doc/api/test.md
 
+## Kudos
+
+Thank you @aduh95 for sharing the new `node:test` module in the @transloadit
+Slack.
+
 ## License
 
 MIT
