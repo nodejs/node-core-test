@@ -104,8 +104,8 @@ https://github.com/nodejs/node/blob/b476b1b91ef8715f096f815db5a0c8722b613678/doc
 
 ## Kudos
 
-Thank you @aduh95 for sharing the new `node:test` module in the @transloadit
-Slack.
+Thank you [@aduh95](https://github.com/@aduh95) for sharing the new `node:test`
+module in the [@transloadit](https://github.com/transloadit) Slack.
 
 ## License
 
