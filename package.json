@@ -1,0 +1,14 @@
+{
+  "name": "node-core-test",
+  "version": "0.0.0",
+  "description": "Node 18's node:test, as a node module",
+  "license": "MIT",
+  "repository": "juliangruber/node-core-test",
+  "scripts": {
+    "test": "prettier-standard && standard"
+  },
+  "devDependencies": {
+    "prettier-standard": "^16.4.1",
+    "standard": "^16.0.4"
+  }
+}
