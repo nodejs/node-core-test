@@ -10,5 +10,8 @@
   "devDependencies": {
     "prettier-standard": "^16.4.1",
     "standard": "^16.0.4"
+  },
+  "dependencies": {
+    "string.prototype.replaceall": "^1.0.6"
   }
 }

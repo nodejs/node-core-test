@@ -4,9 +4,9 @@
 
 This is a user-land port of [`node:test`](https://github.com/nodejs/node/blob/b476b1b91ef8715f096f815db5a0c8722b613678/doc/api/test.md),
 the experimental test runner introduced in Node.js 18. This module makes it
-available in Node.js 16 and later.
+available in Node.js 14 and later.
 
-Zero dependencies, basically zero tests. Use at your own risk.
+Minimal dependencies, basically zero tests. Use at your own risk.
 
 Pull requests welcome for
 - adding tests
