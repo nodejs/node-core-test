@@ -8,13 +8,6 @@ available in Node.js 14 and later.
 
 Minimal dependencies, basically zero tests. Use at your own risk.
 
-Pull requests welcome for
-
-- adding tests
-- keeping it up to date with node core
-- supporting Node.js 14
-- everything else
-
 If we discover bugs in this implementation, I'm going to report them back to
 node core.
 
