@@ -1,6 +1,6 @@
 'use strict'
 
-// https://github.com/cjihrig/node/blob/527eb5caa5feae3b748d9c5b74b256edbb40a775/test/parallel/test-runner-exit-code.js
+// https://github.com/nodejs/node/blob/094b2ae9ba2db28254bb09207a58bd9730ff097d/test/parallel/test-runner-exit-code.js
 
 const assert = require('assert')
 const { spawnSync } = require('child_process')
