@@ -6,7 +6,7 @@ This is a user-land port of [`node:test`](https://github.com/nodejs/node/blob/b4
 the experimental test runner introduced in Node.js 18. This module makes it
 available in Node.js 14 and later.
 
-Minimal dependencies, the full test suite is still be ported. Use at your own risk.
+Minimal dependencies, with full test suite.
 
 If we discover bugs in this implementation, I'm going to report them back to
 node core.
