@@ -8,7 +8,6 @@
     "test": "prettier-standard && standard && node test/parallel/* && node test/message"
   },
   "devDependencies": {
-    "matcher": "^5.0.0",
     "prettier-standard": "^16.4.1",
     "standard": "^16.0.4"
   },

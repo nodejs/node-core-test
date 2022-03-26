@@ -7,8 +7,6 @@ const { exec } = require('child_process')
 const assert = require('assert')
 
 const main = async () => {
-  const { isMatch } = await import('matcher')
-
   const dir = join(__dirname, 'message')
   for (const fileName of await fs.readdir(dir)) {
     if (extname(fileName) === '.js') {
@@ -17,6 +15,7 @@ const main = async () => {
         filePath.replace('.js', '.out'),
         'utf8'
       )
+      console.log(fileName)
       let actual
       try {
         const res = await promisify(exec)(`node ${filePath}`)
@@ -24,13 +23,20 @@ const main = async () => {
       } catch (err) {
         actual = err.stdout.trim()
       }
+      const reg = new RegExp(
+        expected
+          .replace(/\+/g, '\\+')
+          .replace(/\*/g, '.*')
+      )
       try {
-        assert(isMatch(actual, expected, actual))
+        assert(reg.test(actual))
       } catch (err) {
         console.error('expected:')
         console.error(expected)
         console.error('actual:')
         console.error(actual)
+        console.error('reg:')
+        console.error(reg)
         throw err
       }
     }
