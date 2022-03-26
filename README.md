@@ -14,7 +14,7 @@ node core.
 Differences from the core implementation:
 
 - Doesn't hide its own stack frames
-- Uses `._private` property names instead of `#private` fields,
+- Internally uses `._private` property names instead of `#private` fields,
   for compatibility
 
 ## Usage
