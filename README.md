@@ -11,6 +11,11 @@ Minimal dependencies, the full test suite is still be ported. Use at your own ri
 If we discover bugs in this implementation, I'm going to report them back to
 node core.
 
+Differences from the core implementation:
+- Doesn't hide its own stack frames
+- Uses `._private` property names instead of `#private` fields,
+for compatibility
+
 ## Usage
 
 ```js
