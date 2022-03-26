@@ -1,6 +1,5 @@
 'use strict'
 
-// const test = require('..')
 const fs = require('fs/promises')
 const { extname, join } = require('path')
 const { promisify } = require('util')
