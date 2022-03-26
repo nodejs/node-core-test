@@ -1,6 +1,6 @@
-'use strict'
-
 // https://github.com/nodejs/node/blob/b476b1b91ef8715f096f815db5a0c8722b613678/doc/api/test.md
+
+'use strict'
 
 const assert = require('assert')
 const test = require('.')
