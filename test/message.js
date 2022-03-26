@@ -24,9 +24,7 @@ const main = async () => {
         actual = err.stdout.trim()
       }
       const reg = new RegExp(
-        expected
-          .replace(/\+/g, '\\+')
-          .replace(/\*/g, '.*')
+        expected.replace(/\+/g, '\\+').replace(/\*/g, '.*')
       )
       try {
         assert(reg.test(actual))
