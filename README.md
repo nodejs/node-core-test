@@ -101,6 +101,13 @@ not ok 2 - synchronous failing test
 $ echo $?
 ```
 
+You can also run the tests using the [tap](https://npm.im/tap) CLI, or any
+other CLI that expects TAP output, for improved DX:
+
+```bash
+$ tap example.js
+```
+
 ## API
 
 https://github.com/nodejs/node/blob/b476b1b91ef8715f096f815db5a0c8722b613678/doc/api/test.md
