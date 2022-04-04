@@ -4,6 +4,8 @@
   "description": "Node 18's node:test, as a node module",
   "license": "MIT",
   "repository": "juliangruber/node-core-test",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "prettier-standard && standard && node test/parallel/* && node test/message"
   },
