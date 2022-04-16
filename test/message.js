@@ -15,13 +15,19 @@ const main = async () => {
         filePath.replace('.js', '.out'),
         'utf8'
       )
-      console.log(fileName)
-      let actual
+      const flags = (await fs.readFile(filePath, 'utf8'))
+        .split('\n')[1]
+        .split(':')[1]
+        .trim()
+      console.log(fileName, flags)
+      let actual, stderr
       try {
-        const res = await promisify(exec)(`node ${filePath}`)
+        const res = await promisify(exec)(`node ${filePath} ${flags}`)
         actual = res.stdout.trim()
+        stderr = res.stderr.trim()
       } catch (err) {
         actual = err.stdout.trim()
+        stderr = err.stderr.trim()
       }
       const reg = new RegExp(
         expected.replace(/\+/g, '\\+').replace(/\*/g, '.*')
@@ -33,8 +39,8 @@ const main = async () => {
         console.error(expected)
         console.error('actual:')
         console.error(actual)
-        console.error('reg:')
-        console.error(reg)
+        console.error('stderr:')
+        console.error(stderr)
         throw err
       }
     }
