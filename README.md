@@ -38,7 +38,7 @@ import test from 'node-core-test'
 ```
 
 ```cjs
-const test = require('node-core-test');
+const test = require('node-core-test')
 ```
 
 Tests created via the `test` module consist of a single function that is
