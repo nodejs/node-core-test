@@ -20,7 +20,7 @@ Differences from the core implementation:
 
 ## Docs
 
-// https://github.com/nodejs/node/blob/54819f08e0c469528901d81a9cee546ea518a5c3/doc/api/test.md
+> https://github.com/nodejs/node/blob/54819f08e0c469528901d81a9cee546ea518a5c3/doc/api/test.md
 
 # Test runner
 
