@@ -6,6 +6,9 @@
   "repository": "juliangruber/node-core-test",
   "main": "./index.js",
   "types": "./index.d.ts",
+  "bin": {
+    "node-core-test": "./bin/node-core-test"
+  },
   "scripts": {
     "test": "prettier-standard && standard && node test/parallel/* && node test/message"
   },
