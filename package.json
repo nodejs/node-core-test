@@ -6,11 +6,15 @@
   "repository": "juliangruber/node-core-test",
   "main": "./index.js",
   "types": "./index.d.ts",
+  "bin": {
+    "node-core-test": "./bin/test_runner.js"
+  },
   "scripts": {
-    "test": "prettier-standard && standard && node test/parallel/* && node test/message"
+    "test": "npm run test:lint && npm run test:unit",
+    "test:lint": "standard --fix",
+    "test:unit": "node test/parallel/* && node test/message"
   },
   "devDependencies": {
-    "prettier-standard": "^16.4.1",
     "standard": "^16.0.4",
     "typescript": "^4.6.3"
   },

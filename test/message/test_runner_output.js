@@ -1,10 +1,11 @@
-// https://github.com/nodejs/node/blob/432d1b50e0432daf7e81dea9a8d6dca64ecde6a4/test/message/test_runner_output.js
+// https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/test/message/test_runner_output.js
 // Flags: --no-warnings
 
 'use strict'
 
 const assert = require('assert')
 const test = require('../..')
+const util = require('util')
 
 test('sync pass todo', t => {
   t.todo()
@@ -295,4 +296,26 @@ test('only is set but not in only mode', { only: true }, async t => {
   await t.test('running subtest 3', { only: true })
   t.runOnly(false)
   await t.test('running subtest 4')
+})
+
+test('custom inspect symbol fail', () => {
+  const obj = {
+    [util.inspect.custom] () {
+      return 'customized'
+    },
+    foo: 1
+  }
+
+  throw obj
+})
+
+test('custom inspect symbol that throws fail', () => {
+  const obj = {
+    [util.inspect.custom] () {
+      throw new Error('bad-inspect')
+    },
+    foo: 1
+  }
+
+  throw obj
 })
