@@ -10,7 +10,9 @@
     "node-core-test": "./bin/test_runner.js"
   },
   "scripts": {
-    "test": "standard --fix && node test/parallel/* && node test/message"
+    "test": "npm run test:lint && npm run test:unit",
+    "test:lint": "standard --fix",
+    "test:unit": "node test/parallel/* && node test/message"
   },
   "devDependencies": {
     "standard": "^16.0.4",
