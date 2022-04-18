@@ -7,10 +7,9 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "prettier-standard && standard && node test/parallel/* && node test/message"
+    "test": "standard --fix && node test/parallel/* && node test/message"
   },
   "devDependencies": {
-    "prettier-standard": "^16.4.1",
     "standard": "^16.0.4",
     "typescript": "^4.6.3"
   },
