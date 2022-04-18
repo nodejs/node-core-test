@@ -10,6 +10,7 @@
     "test": "standard --fix && node test/parallel/* && node test/message"
   },
   "devDependencies": {
+    "eslint": "^8.13.0",
     "standard": "^16.0.4",
     "typescript": "^4.6.3"
   },
