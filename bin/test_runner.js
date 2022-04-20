@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// https://github.com/nodejs/node/blob/HEAD/lib/internal/main/test_runner.js
+// https://github.com/nodejs/node/blob/484d35402de36d8d5756b244c8e5fbb8aa4c6afd/lib/internal/main/test_runner.js
 'use strict'
 const {
   ArrayFrom,
