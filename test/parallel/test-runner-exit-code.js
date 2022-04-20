@@ -1,4 +1,5 @@
 // https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/test/parallel/test-runner-exit-code.js
+
 'use strict'
 
 const assert = require('assert')
