@@ -1,11 +1,12 @@
 // https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/test/parallel/test-runner-test-filter.js
 // Flags: --expose-internals
 'use strict'
+require('../common')
 const assert = require('assert')
-const { doesPathMatchFilter } = require('#internal/test_runner/utils')
+const { doesPathMatchFilter } = require('#internal/test_runner/utils');
 
 // Paths expected to match
-;[
+[
   'test.js',
   'test.cjs',
   'test.mjs',
@@ -21,12 +22,12 @@ const { doesPathMatchFilter } = require('#internal/test_runner/utils')
   'foo_test.js',
   'foo_test.cjs',
   'foo_test.mjs'
-].forEach(p => {
+].forEach((p) => {
   assert.strictEqual(doesPathMatchFilter(p), true)
-})
+});
 
 // Paths expected not to match
-;[
+[
   'test',
   'test.djs',
   'test.cs',
@@ -37,6 +38,6 @@ const { doesPathMatchFilter } = require('#internal/test_runner/utils')
   'test_foo.js',
   'testfoo.js',
   'foo-test1.mjs'
-].forEach(p => {
+].forEach((p) => {
   assert.strictEqual(doesPathMatchFilter(p), false)
 })

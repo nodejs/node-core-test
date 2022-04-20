@@ -3,16 +3,24 @@
 'use strict'
 const {
   ArrayFrom,
+  ArrayPrototypeFilter,
+  ArrayPrototypeIncludes,
   ArrayPrototypePush,
   ArrayPrototypeSlice,
   ArrayPrototypeSort,
   Promise,
   SafeSet
 } = require('#internal/per_context/primordials')
+const {
+  prepareMainThreadExecution
+} = require('#internal/bootstrap/pre_execution')
 const { spawn } = require('child_process')
 const { readdirSync, statSync } = require('fs')
+// const console = require('internal/console/global');
 const {
-  codes: { ERR_TEST_FAILURE }
+  codes: {
+    ERR_TEST_FAILURE
+  }
 } = require('#internal/errors')
 const test = require('#internal/test_runner/harness')
 const { kSubtestsFailed } = require('#internal/test_runner/test')
@@ -21,17 +29,19 @@ const {
   doesPathMatchFilter
 } = require('#internal/test_runner/utils')
 const { basename, join, resolve } = require('path')
+const kFilterArgs = ['--test']
+
+prepareMainThreadExecution(false)
+// markBootstrapComplete();
 
 // TODO(cjihrig): Replace this with recursive readdir once it lands.
 function processPath (path, testFiles, options) {
   const stats = statSync(path)
 
   if (stats.isFile()) {
-    if (
-      options.userSupplied ||
-      (options.underTestDir && isSupportedFileType(path)) ||
-      doesPathMatchFilter(path)
-    ) {
+    if (options.userSupplied ||
+        (options.underTestDir && isSupportedFileType(path)) ||
+        doesPathMatchFilter(path)) {
       testFiles.add(path)
     }
   } else if (stats.isDirectory()) {
@@ -63,9 +73,9 @@ function processPath (path, testFiles, options) {
 
 function createTestFileList () {
   const cwd = process.cwd()
-  const hasUserSuppliedPaths = process.argv.length > 2
+  const hasUserSuppliedPaths = process.argv.length > 1
   const testPaths = hasUserSuppliedPaths
-    ? ArrayPrototypeSlice(process.argv, 2)
+    ? ArrayPrototypeSlice(process.argv, 1)
     : [cwd]
   const testFiles = new SafeSet()
 
@@ -87,10 +97,14 @@ function createTestFileList () {
   return ArrayPrototypeSort(ArrayFrom(testFiles))
 }
 
+function filterExecArgv (arg) {
+  return !ArrayPrototypeIncludes(kFilterArgs, arg)
+}
+
 function runTestFile (path) {
   return test(path, () => {
     return new Promise((resolve, reject) => {
-      const args = [...process.execArgv]
+      const args = ArrayPrototypeFilter(process.execArgv, filterExecArgv)
       ArrayPrototypePush(args, path)
 
       const child = spawn(process.execPath, args)
@@ -100,18 +114,18 @@ function runTestFile (path) {
       let stderr = ''
       let err
 
-      child.on('error', error => {
+      child.on('error', (error) => {
         err = error
       })
 
       child.stdout.setEncoding('utf8')
       child.stderr.setEncoding('utf8')
 
-      child.stdout.on('data', chunk => {
+      child.stdout.on('data', (chunk) => {
         stdout += chunk
       })
 
-      child.stderr.on('data', chunk => {
+      child.stderr.on('data', (chunk) => {
         stderr += chunk
       })
 

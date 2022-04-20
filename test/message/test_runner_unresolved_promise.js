@@ -1,9 +1,8 @@
-// https://github.com/cjihrig/node/blob/527eb5caa5feae3b748d9c5b74b256edbb40a775/test/message/test_runner_unresolved_promise.js
+// https://github.com/nodejs/node/blob/HEAD/test/message/test_runner_unresolved_promise.js
 // Flags: --no-warnings
-
 'use strict'
-
-const test = require('../..')
+require('../common')
+const test = require('#node:test')
 
 test('pass')
 test('never resolving promise', () => new Promise(() => {}))

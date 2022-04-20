@@ -1,7 +1,8 @@
-// https://github.com/nodejs/node/blob/54819f08e0c469528901d81a9cee546ea518a5c3/test/message/test_runner_only_tests.js
+// https://github.com/nodejs/node/blob/HEAD/test/message/test_runner_only_tests.js
 // Flags: --no-warnings --test-only
 'use strict'
-const test = require('../..')
+require('../common')
+const test = require('#node:test')
 
 // These tests should be skipped based on the 'only' option.
 test('only = undefined')
@@ -18,7 +19,7 @@ test('only = true, skip = string', { only: true, skip: 'skip message' })
 test('only = true, skip = true', { only: true, skip: true })
 
 // An 'only' test with subtests.
-test('only = true, with subtests', { only: true }, async t => {
+test('only = true, with subtests', { only: true }, async (t) => {
   // These subtests should run.
   await t.test('running subtest 1')
   await t.test('running subtest 2')
@@ -31,7 +32,7 @@ test('only = true, with subtests', { only: true }, async t => {
 
   // Switch the context back to execute all tests.
   t.runOnly(false)
-  await t.test('running subtest 4', async t => {
+  await t.test('running subtest 4', async (t) => {
     // These subtests should run.
     await t.test('running sub-subtest 1')
     await t.test('running sub-subtest 2')

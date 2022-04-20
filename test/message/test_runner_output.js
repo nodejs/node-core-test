@@ -1,39 +1,38 @@
-// https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/test/message/test_runner_output.js
+// https://github.com/nodejs/node/blob/HEAD/test/message/test_runner_output.js
 // Flags: --no-warnings
-
 'use strict'
-
-const assert = require('assert')
-const test = require('../..')
+require('../common')
+const assert = require('node:assert')
+const test = require('#node:test')
 const util = require('util')
 
-test('sync pass todo', t => {
+test('sync pass todo', (t) => {
   t.todo()
 })
 
-test('sync pass todo with message', t => {
+test('sync pass todo with message', (t) => {
   t.todo('this is a passing todo')
 })
 
-test('sync fail todo', t => {
+test('sync fail todo', (t) => {
   t.todo()
   throw new Error('thrown from sync fail todo')
 })
 
-test('sync fail todo with message', t => {
+test('sync fail todo with message', (t) => {
   t.todo('this is a failing todo')
   throw new Error('thrown from sync fail todo with message')
 })
 
-test('sync skip pass', t => {
+test('sync skip pass', (t) => {
   t.skip()
 })
 
-test('sync skip pass with message', t => {
+test('sync skip pass with message', (t) => {
   t.skip('this is skipped')
 })
 
-test('sync pass', t => {
+test('sync pass', (t) => {
   t.diagnostic('this test should pass')
 })
 
@@ -41,17 +40,19 @@ test('sync throw fail', () => {
   throw new Error('thrown from sync throw fail')
 })
 
-test('async skip pass', async t => {
+test('async skip pass', async (t) => {
   t.skip()
 })
 
-test('async pass', async () => {})
+test('async pass', async () => {
+
+})
 
 test('async throw fail', async () => {
   throw new Error('thrown from async throw fail')
 })
 
-test('async skip fail', async t => {
+test('async skip fail', async (t) => {
   t.skip()
   throw new Error('thrown from async throw fail')
 })
@@ -90,27 +91,27 @@ test('immediate reject - passes but warns', () => {
 })
 
 test('immediate resolve pass', () => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setImmediate(() => {
       resolve()
     })
   })
 })
 
-test('subtest sync throw fail', async t => {
-  await t.test('+sync throw fail', t => {
+test('subtest sync throw fail', async (t) => {
+  await t.test('+sync throw fail', (t) => {
     t.diagnostic('this subtest should make its parent test fail')
     throw new Error('thrown from subtest sync throw fail')
   })
 })
 
-test('sync throw non-error fail', async t => {
+test('sync throw non-error fail', async (t) => {
   throw Symbol('thrown symbol from sync throw non-error fail')
 })
 
-test('level 0a', { concurrency: 4 }, async t => {
-  t.test('level 1a', async t => {
-    const p1a = new Promise(resolve => {
+test('level 0a', { concurrency: 4 }, async (t) => {
+  t.test('level 1a', async (t) => {
+    const p1a = new Promise((resolve) => {
       setTimeout(() => {
         resolve()
       }, 1000)
@@ -119,16 +120,16 @@ test('level 0a', { concurrency: 4 }, async t => {
     return p1a
   })
 
-  t.test('level 1b', async t => {
-    const p1b = new Promise(resolve => {
+  t.test('level 1b', async (t) => {
+    const p1b = new Promise((resolve) => {
       resolve()
     })
 
     return p1b
   })
 
-  t.test('level 1c', async t => {
-    const p1c = new Promise(resolve => {
+  t.test('level 1c', async (t) => {
+    const p1c = new Promise((resolve) => {
       setTimeout(() => {
         resolve()
       }, 2000)
@@ -137,8 +138,8 @@ test('level 0a', { concurrency: 4 }, async t => {
     return p1c
   })
 
-  t.test('level 1d', async t => {
-    const p1c = new Promise(resolve => {
+  t.test('level 1d', async (t) => {
+    const p1c = new Promise((resolve) => {
       setTimeout(() => {
         resolve()
       }, 1500)
@@ -147,7 +148,7 @@ test('level 0a', { concurrency: 4 }, async t => {
     return p1c
   })
 
-  const p0a = new Promise(resolve => {
+  const p0a = new Promise((resolve) => {
     setTimeout(() => {
       resolve()
     }, 3000)
@@ -156,19 +157,19 @@ test('level 0a', { concurrency: 4 }, async t => {
   return p0a
 })
 
-test('top level', { concurrency: 2 }, async t => {
-  t.test('+long running', async t => {
+test('top level', { concurrency: 2 }, async (t) => {
+  t.test('+long running', async (t) => {
     return new Promise((resolve, reject) => {
       setTimeout(resolve, 3000).unref()
     })
   })
 
-  t.test('+short running', async t => {
-    t.test('++short running', async t => {})
+  t.test('+short running', async (t) => {
+    t.test('++short running', async (t) => {})
   })
 })
 
-test('invalid subtest - pass but subtest fails', t => {
+test('invalid subtest - pass but subtest fails', (t) => {
   setImmediate(() => {
     t.test('invalid subtest fail', () => {
       throw new Error('this should not be thrown')
@@ -176,15 +177,15 @@ test('invalid subtest - pass but subtest fails', t => {
   })
 })
 
-test('sync skip option', { skip: true }, t => {
+test('sync skip option', { skip: true }, (t) => {
   throw new Error('this should not be executed')
 })
 
-test('sync skip option with message', { skip: 'this is skipped' }, t => {
+test('sync skip option with message', { skip: 'this is skipped' }, (t) => {
   throw new Error('this should not be executed')
 })
 
-test('sync skip option is false fail', { skip: false }, t => {
+test('sync skip option is false fail', { skip: false }, (t) => {
   throw new Error('this should be executed')
 })
 
@@ -222,7 +223,7 @@ test('escaped skip message', { skip: '#skip' })
 test('escaped todo message', { todo: '#todo' })
 
 // A test with a diagnostic message that needs to be escaped.
-test('escaped diagnostic', t => {
+test('escaped diagnostic', (t) => {
   t.diagnostic('#diagnostic')
 })
 
@@ -288,7 +289,7 @@ test('callback async throw after done', (t, done) => {
   done()
 })
 
-test('only is set but not in only mode', { only: true }, async t => {
+test('only is set but not in only mode', { only: true }, async (t) => {
   // All of these subtests should run.
   await t.test('running subtest 1')
   t.runOnly(true)

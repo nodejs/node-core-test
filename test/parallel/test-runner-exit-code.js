@@ -2,11 +2,12 @@
 
 'use strict'
 
+require('../common')
 const assert = require('assert')
 const { spawnSync } = require('child_process')
 
 if (process.argv[2] === 'child') {
-  const test = require('../..')
+  const test = require('#node:test')
 
   if (process.argv[3] === 'pass') {
     test('passing test', () => {

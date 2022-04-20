@@ -10,7 +10,9 @@
     "node-core-test": "./bin/test_runner.js"
   },
   "imports": {
+    "#internal/bootstrap/*": "./lib/internal/bootstrap/*.js",
     "#internal/per_context/*": "./lib/internal/per_context/*.js",
+    "#internal/streams/*": "./lib/internal/streams/*.js",
     "#internal/test_runner/*": "./lib/internal/test_runner/*.js",
     "#internal/*": "./lib/internal/*.js",
     "#node:test": "./index.js"
@@ -21,7 +23,7 @@
     "test:unit": "node test/parallel/* && node test/message"
   },
   "devDependencies": {
-    "standard": "^16.0.4",
+    "standard": "^17.0.0",
     "typescript": "^4.6.3"
   },
   "dependencies": {
