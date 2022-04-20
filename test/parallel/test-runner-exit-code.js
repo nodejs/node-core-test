@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/094b2ae9ba2db28254bb09207a58bd9730ff097d/test/parallel/test-runner-exit-code.js
+// https://github.com/nodejs/node/blob/HEAD/test/parallel/test-runner-exit-code.js
 
 'use strict'
 

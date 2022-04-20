@@ -1,8 +1,8 @@
-// https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/test/parallel/test-runner-test-filter.js
+// https://github.com/nodejs/node/blob/HEAD/test/parallel/test-runner-test-filter.js
 // Flags: --expose-internals
 'use strict'
 const assert = require('assert')
-const { doesPathMatchFilter } = require('../../lib/utils')
+const { doesPathMatchFilter } = require('#internal/test_runner/utils')
 
 // Paths expected to match
 ;[

@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/test/parallel/test-runner-cli.js
+// https://github.com/nodejs/node/blob/HEAD/test/parallel/test-runner-cli.js
 'use strict'
 const assert = require('assert')
 const { spawnSync } = require('child_process')

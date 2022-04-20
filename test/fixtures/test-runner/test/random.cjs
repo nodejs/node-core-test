@@ -1,5 +1,5 @@
-// https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/test/fixtures/test-runner/test/random.cjs
+// https://github.com/nodejs/node/blob/HEAD/test/fixtures/test-runner/test/random.cjs
 'use strict'
-const test = require('../../../..')
+const test = require('#node:test')
 
 test('this should pass')
