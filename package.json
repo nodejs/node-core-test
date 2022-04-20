@@ -10,10 +10,6 @@
     "node-core-test": "./bin/test_runner.js"
   },
   "imports": {
-    "#internal/bootstrap/*": "./lib/internal/bootstrap/*.js",
-    "#internal/per_context/*": "./lib/internal/per_context/*.js",
-    "#internal/streams/*": "./lib/internal/streams/*.js",
-    "#internal/test_runner/*": "./lib/internal/test_runner/*.js",
     "#internal/*": "./lib/internal/*.js",
     "#node:test": "./index.js"
   },
