@@ -2,7 +2,7 @@
 // Flags: --expose-internals
 'use strict'
 const assert = require('assert')
-const { doesPathMatchFilter } = require('../../lib/utils')
+const { doesPathMatchFilter } = require('#internal/test_runner/utils')
 
 // Paths expected to match
 ;[

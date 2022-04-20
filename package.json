@@ -9,6 +9,12 @@
   "bin": {
     "node-core-test": "./bin/test_runner.js"
   },
+  "imports": {
+    "#internal/per_context/*": "./lib/internal/per_context/*.js",
+    "#internal/test_runner/*": "./lib/internal/test_runner/*.js",
+    "#internal/*": "./lib/internal/*.js",
+    "#node:test": "./index.js"
+  },
   "scripts": {
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "standard --fix",

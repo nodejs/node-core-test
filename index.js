@@ -2,7 +2,7 @@
 
 'use strict'
 
-const test = require('./lib/harness')
+const test = require('#internal/test_runner/harness')
 
 module.exports = test
 module.exports.test = test

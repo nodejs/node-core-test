@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// https://github.com/cjihrig/node/blob/484d35402de36d8d5756b244c8e5fbb8aa4c6afd/lib/internal/main/test_runner.js
+// https://github.com/nodejs/node/blob/484d35402de36d8d5756b244c8e5fbb8aa4c6afd/lib/internal/main/test_runner.js
 'use strict'
 const {
   ArrayFrom,
@@ -8,15 +8,18 @@ const {
   ArrayPrototypeSort,
   Promise,
   SafeSet
-} = require('../lib/primordials')
+} = require('#internal/per_context/primordials')
 const { spawn } = require('child_process')
 const { readdirSync, statSync } = require('fs')
 const {
   codes: { ERR_TEST_FAILURE }
-} = require('../lib/errors')
-const test = require('../lib/harness')
-const { kSubtestsFailed } = require('../lib/test')
-const { isSupportedFileType, doesPathMatchFilter } = require('../lib/utils')
+} = require('#internal/errors')
+const test = require('#internal/test_runner/harness')
+const { kSubtestsFailed } = require('#internal/test_runner/test')
+const {
+  isSupportedFileType,
+  doesPathMatchFilter
+} = require('#internal/test_runner/utils')
 const { basename, join, resolve } = require('path')
 
 // TODO(cjihrig): Replace this with recursive readdir once it lands.
