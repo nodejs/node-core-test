@@ -9,6 +9,8 @@ const { createInterface } = require('node:readline')
 const MESSAGE_FOLDER = join(__dirname, './message/')
 const WAIT_FOR_ELLIPSIS = Symbol('wait for ellispis')
 
+const TEST_RUNNER_FLAGS = ['--test', '--test-only']
+
 function readLines (file) {
   return createInterface({
     input: createReadStream(file),
@@ -70,14 +72,20 @@ const main = async () => {
       const flagIndex = fileContent.buffer.indexOf('// Flags: ')
       const flags =
         flagIndex === -1
-          ? ''
+          ? []
           : fileContent.buffer
             .subarray(
               flagIndex + 10,
               fileContent.buffer.indexOf(10, flagIndex)
             )
-            .toString()
-      const command = `${process.execPath} ${filePath} ${flags}`
+            .toString().split(' ')
+
+      const nodeFlags = flags.filter(flag => !TEST_RUNNER_FLAGS.includes(flag)).join(' ')
+      const testRunnerFlags = flags.filter(flag => TEST_RUNNER_FLAGS.includes(flag)).join(' ')
+
+      const command = testRunnerFlags.length
+        ? `${process.execPath} ${nodeFlags} ${join(__dirname, '..', 'bin', 'test_runner.js')} ${testRunnerFlags} ${filePath}`
+        : `${process.execPath} ${nodeFlags} ${filePath}`
       console.log(`Running ${command}`)
       let stdout, stderr
       try {
