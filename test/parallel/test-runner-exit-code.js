@@ -2,7 +2,8 @@
 
 'use strict'
 
-require('../common')
+// We don't want to mess with process.execPath for this test, so let's not require ../common.
+// require('../common')
 const assert = require('assert')
 const { spawnSync } = require('child_process')
 
