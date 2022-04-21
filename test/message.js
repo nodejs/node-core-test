@@ -18,7 +18,7 @@ function readLines (file) {
   })
 }
 
-// https://github.com/nodejs/node/blob/3a6116dabbddcabf386ee048d94f546e852489a5/test/message/testcfg.py#L53
+// https://github.com/nodejs/node/blob/1aab13cad9c800f4121c1d35b554b78c1b17bdbd/test/message/testcfg.py#L53
 async function IsFailureOutput (self, output) {
   // Convert output lines to regexps that we can match
   const patterns = []

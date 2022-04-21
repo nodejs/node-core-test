@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/HEAD/test/common/tmpdir.js
+// https://github.com/nodejs/node/blob/1aab13cad9c800f4121c1d35b554b78c1b17bdbd/test/common/tmpdir.js
 'use strict'
 
 const fs = require('fs')
