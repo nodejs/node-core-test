@@ -25,7 +25,7 @@ async function IsFailureOutput (self, output) {
     const pattern = line
       .trimEnd()
       .replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
-      .replaceAll('\\*', '.*')
+      .replace(/\\\*/g, '.*')
     patterns.push(`^${pattern}$`)
 
     if (/^\s+stack: \|-$/.test(line)) {
