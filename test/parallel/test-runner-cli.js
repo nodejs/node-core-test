@@ -80,29 +80,30 @@ const testFixtures = fixtures.path('test-runner')
   assert.match(stdout, /ok 4 - .+random\.cjs/)
 }
 
-{
-  // Flags that cannot be combined with --test.
-  const flags = [
-    ['--check', '--test'],
-    ['--interactive', '--test'],
-    ['--eval', 'console.log("should not print")', '--test'],
-    ['--print', 'console.log("should not print")', '--test']
-  ]
+// Our lib does not support Node.js specific flags, skipping.
+// {
+//   // Flags that cannot be combined with --test.
+//   const flags = [
+//     ['--check', '--test'],
+//     ['--interactive', '--test'],
+//     ['--eval', 'console.log("should not print")', '--test'],
+//     ['--print', 'console.log("should not print")', '--test']
+//   ]
 
-  if (process.features.inspector) {
-    flags.push(
-      ['--inspect', '--test'],
-      ['--inspect-brk', '--test']
-    )
-  }
+//   if (process.features.inspector) {
+//     flags.push(
+//       // ['--inspect', '--test'],
+//       // ['--inspect-brk', '--test']
+//     )
+//   }
 
-  flags.forEach((args) => {
-    const child = spawnSync(process.execPath, args)
+//   flags.forEach((args) => {
+//     const child = spawnSync(process.execPath, args)
 
-    assert.notStrictEqual(child.status, 0)
-    assert.strictEqual(child.signal, null)
-    assert.strictEqual(child.stdout.toString(), '')
-    const stderr = child.stderr.toString()
-    assert.match(stderr, /--test/)
-  })
-}
+//     assert.notStrictEqual(child.status, 0)
+//     assert.strictEqual(child.signal, null)
+//     assert.strictEqual(child.stdout.toString(), '')
+//     const stderr = child.stderr.toString()
+//     assert.match(stderr, /--test/)
+//   })
+// }
