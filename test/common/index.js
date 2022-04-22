@@ -4,7 +4,7 @@ const path = require('path')
 const util = require('util')
 const noop = () => {}
 
-process.execPath = path.join(__dirname, '..', '..', 'bin', 'test_runner.js')
+process.execPath = path.join(__dirname, '..', '..', 'bin', 'node--test.js')
 
 const mustCallChecks = []
 

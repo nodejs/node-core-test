@@ -84,7 +84,7 @@ const main = async () => {
       const testRunnerFlags = flags.filter(flag => TEST_RUNNER_FLAGS.includes(flag)).join(' ')
 
       const command = testRunnerFlags.length
-        ? `${process.execPath} ${nodeFlags} ${join(__dirname, '..', 'bin', 'test_runner.js')} ${testRunnerFlags} ${filePath}`
+        ? `${process.execPath} ${nodeFlags} ${join(__dirname, '..', 'bin', 'node--test.js')} ${testRunnerFlags} ${filePath}`
         : `${process.execPath} ${nodeFlags} ${filePath}`
       console.log(`Running ${command}`)
       let stdout, stderr
