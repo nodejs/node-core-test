@@ -1,10 +1,12 @@
 const { spawn } = require('node:child_process')
-const { join } = require('node:path')
+const { join, resolve } = require('node:path')
 const assert = require('node:assert')
 
 const test = require('#node:test')
 
-const binPath = join(__dirname, '..', 'bin', 'node--test.js')
+const { bin } = require('../package.json')
+
+const binPath = resolve(__dirname, '..', bin['node--test'])
 const fixturesDir = join(__dirname, 'fixtures', 'node-core-test')
 
 test('should execute the tests with the --test flag', () => new Promise((resolve, reject) => {

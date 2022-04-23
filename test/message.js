@@ -1,10 +1,13 @@
 'use strict'
 
 const { createReadStream, promises: fs } = require('node:fs')
-const { extname, join } = require('node:path')
+const { extname, join, resolve } = require('node:path')
 const { promisify } = require('node:util')
 const { exec } = require('node:child_process')
 const { createInterface } = require('node:readline')
+
+const { bin } = require('../package.json')
+const binPath = resolve(__dirname, '..', bin['node--test'])
 
 const MESSAGE_FOLDER = join(__dirname, './message/')
 const WAIT_FOR_ELLIPSIS = Symbol('wait for ellispis')
@@ -84,7 +87,7 @@ const main = async () => {
       const testRunnerFlags = flags.filter(flag => TEST_RUNNER_FLAGS.includes(flag)).join(' ')
 
       const command = testRunnerFlags.length
-        ? `${process.execPath} ${nodeFlags} ${join(__dirname, '..', 'bin', 'node--test.js')} ${testRunnerFlags} ${filePath}`
+        ? `${process.execPath} ${nodeFlags} ${binPath} ${testRunnerFlags} ${filePath}`
         : `${process.execPath} ${nodeFlags} ${filePath}`
       console.log(`Running ${command}`)
       let stdout, stderr
