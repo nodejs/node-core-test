@@ -16,7 +16,7 @@
   "scripts": {
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "standard --fix",
-    "test:unit": "node test/parallel/* && node test/message"
+    "test:unit": "node test/parallel/* && node test/message && node test/node-core-test.js"
   },
   "devDependencies": {
     "standard": "^17.0.0",

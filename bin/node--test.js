@@ -3,6 +3,7 @@
 
 const Module = require('node:module')
 const path = require('node:path')
+const { pathToFileURL } = require('node:url')
 const minimist = require('minimist')
 
 const { argv } = require('#internal/options')
@@ -12,14 +13,49 @@ Object.assign(argv, minimist(process.argv.slice(2), {
 }))
 if (!argv.test && !argv['test-only']) {
   // Assume `--test` was meant if no flag was passed.
-  // TODO: emit a deprecation warning.
+  // TODO: emit a deprecation warning?
   argv.test = true
 }
 process.argv.splice(1, Infinity, ...argv._)
 if (argv.test) {
   require('#internal/main/test_runner')
 } else {
-  loadMainModule(argv._[0])
+  const entryPointPath = path.resolve(argv._[0])
+  try {
+    loadMainModule(entryPointPath)
+  } catch (err) {
+    if (err.code !== 'ERR_REQUIRE_ESM') throw err
+
+    // Override process exit code logic to handle TLA:
+
+    let shouldOverwriteExitCode = true
+    const { exit: originalExitFunction } = process
+    process.exit = function exit (code) {
+      if (code === undefined && shouldOverwriteExitCode) {
+        process.exitCode = 0
+      }
+      Reflect.apply(originalExitFunction, process, arguments)
+    }
+    Object.defineProperty(process, 'exitCode', {
+      get: () => 13,
+      set (val) {
+        shouldOverwriteExitCode = false
+        delete process.exitCode
+        process.exitCode = val
+      },
+      configurable: true,
+      enumerable: true
+    })
+
+    // Import module
+
+    import(pathToFileURL(entryPointPath)).then(() => {
+      if (shouldOverwriteExitCode) process.exitCode = 0
+    }, (err) => {
+      console.error(err)
+      process.exit(1)
+    })
+  }
 }
 
 /**
