@@ -7,7 +7,8 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "bin": {
-    "node--test": "./bin/node--test.js"
+    "node--test": "./bin/node--test.js",
+    "node-core-test": "./bin/node-core-test.js"
   },
   "imports": {
     "#internal/*": "./lib/internal/*.js",
