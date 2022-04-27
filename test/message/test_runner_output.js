@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/1aab13cad9c800f4121c1d35b554b78c1b17bdbd/test/message/test_runner_output.js
+// https://github.com/nodejs/node/blob/8cbc39068cd102e3bbdb6c5a1d14ce450e6ef093/test/message/test_runner_output.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -319,4 +319,13 @@ test('custom inspect symbol that throws fail', () => {
   }
 
   throw obj
+})
+
+test('subtest sync throw fails', async (t) => {
+  await t.test('sync throw fails at first', (t) => {
+    throw new Error('thrown from subtest sync throw fails at first')
+  })
+  await t.test('sync throw fails at second', (t) => {
+    throw new Error('thrown from subtest sync throw fails at second')
+  })
 })
