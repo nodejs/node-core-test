@@ -1,6 +1,6 @@
 {
   "name": "node-core-test",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "Node 18's node:test, as a node module",
   "license": "MIT",
   "repository": "juliangruber/node-core-test",
