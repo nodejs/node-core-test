@@ -7,21 +7,20 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "bin": {
-    "node-core-test": "./bin/test_runner.js"
+    "node--test": "./bin/node--test.js",
+    "node-core-test": "./bin/node-core-test.js"
   },
   "imports": {
-    "#internal/per_context/*": "./lib/internal/per_context/*.js",
-    "#internal/test_runner/*": "./lib/internal/test_runner/*.js",
     "#internal/*": "./lib/internal/*.js",
     "#node:test": "./index.js"
   },
   "scripts": {
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "standard --fix",
-    "test:unit": "node test/parallel/* && node test/message"
+    "test:unit": "node test/parallel/* && node test/message && node test/node-core-test.js"
   },
   "devDependencies": {
-    "standard": "^16.0.4",
+    "standard": "^17.0.0",
     "typescript": "^4.6.3"
   },
   "dependencies": {
