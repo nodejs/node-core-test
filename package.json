@@ -1,7 +1,7 @@
 {
   "name": "test",
   "version": "2.0.0",
-  "description": "Node 18's node:test, as a node module",
+  "description": "Node 18's node:test, as a npm package",
   "license": "MIT",
   "repository": "nodejs/node-core-test",
   "main": "./index.js",
