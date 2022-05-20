@@ -1,5 +1,5 @@
 {
-  "name": "node-core-test",
+  "name": "test",
   "version": "2.0.0",
   "description": "Node 18's node:test, as a node module",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "types": "./index.d.ts",
   "bin": {
     "node--test": "./bin/node--test.js",
-    "node-core-test": "./bin/node-core-test.js"
+    "node": "./bin/node-core-test.js"
   },
   "imports": {
     "#internal/*": "./lib/internal/*.js",
