@@ -1,6 +1,6 @@
 # The `test` npm package
 
-[![CI](https://github.com/nodejs/test/actions/workflows/ci.yml/badge.svg)](https://github.com/nodejs/test/actions/workflows/ci.yml)
+[![CI](https://github.com/nodejs/node-core-test/actions/workflows/ci.yml/badge.svg)](https://github.com/nodejs/node-core-test/actions/workflows/ci.yml)
 
 This is a user-land port of [`node:test`](https://nodejs.org/api/test.html),
 the experimental test runner introduced in Node.js 18. This module makes it
