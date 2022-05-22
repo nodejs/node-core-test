@@ -1,4 +1,4 @@
-# test
+# The `test` npm package
 
 [![CI](https://github.com/nodejs/test/actions/workflows/ci.yml/badge.svg)](https://github.com/nodejs/test/actions/workflows/ci.yml)
 
