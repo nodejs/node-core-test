@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/nodejs/test/actions/workflows/ci.yml/badge.svg)](https://github.com/nodejs/test/actions/workflows/ci.yml)
 
-This is a user-land port of [`node:test`](https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/doc/api/test.md),
+This is a user-land port of [`node:test`](https://nodejs.org/api/test.html),
 the experimental test runner introduced in Node.js 18. This module makes it
 available in Node.js 14 and later.
 
