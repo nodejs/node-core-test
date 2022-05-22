@@ -6,7 +6,7 @@ const noop = () => {}
 
 const { bin } = require('../../package.json')
 
-process.execPath = path.resolve(__dirname, '..', '..', bin['node-core-test'])
+process.execPath = path.resolve(__dirname, '..', '..', bin.test)
 
 const mustCallChecks = []
 
