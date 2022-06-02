@@ -167,7 +167,7 @@ option set is run, all subtests are also run. The test context's `runOnly()`
 method can be used to implement the same behavior at the subtest level.
 
 ```js
-// Assume test is run with the --test-only command-line option.
+// Assume node--test is run with the --test-only command-line option.
 // The 'only' option is set, so this test is run.
 test('this test is run', { only: true }, async t => {
   // Within this test, all subtests are run by default.
