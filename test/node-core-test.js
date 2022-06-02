@@ -6,7 +6,7 @@ const test = require('#node:test')
 
 const { bin } = require('../package.json')
 
-const binPath = resolve(__dirname, '..', bin['node-core-test'])
+const binPath = resolve(__dirname, '..', bin.test)
 const nodeDashDashTestPath = resolve(__dirname, '..', bin['node--test'])
 const fixturesDir = join(__dirname, 'fixtures', 'node-core-test')
 
