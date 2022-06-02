@@ -1,0 +1,31 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created:  ${{ steps.release.outputs.release_created }}
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          package-name: node-core-utils
+  npm-publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
