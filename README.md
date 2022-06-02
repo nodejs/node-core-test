@@ -247,7 +247,7 @@ Alternatively, one or more paths can be provided as the final argument(s) to
 the Node.js command, as shown below.
 
 ```bash
-test --test test1.js test2.mjs custom_test_dir/
+node--test test1.js test2.mjs custom_test_dir/
 node--test test1.js test2.mjs custom_test_dir/
 ```
 
