@@ -8,27 +8,21 @@ available in Node.js 14 and later.
 
 Minimal dependencies, with full test suite.
 
-If we discover bugs in this implementation, I'm going to report them back to
-node core.
-
 Differences from the core implementation:
 
-- Doesn't hide its own stack frames
+- Doesn't hide its own stack frames.
 
 ## Docs
 
-> https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/doc/api/test.md
-
-# Test runner
-
-<!--introduced_in=REPLACEME-->
+### Test runner
 
 > Stability: 1 - Experimental
 
 <!-- source_link=lib/test.js -->
 
 The `node:test` module facilitates the creation of JavaScript tests that
-report results in [TAP][] format. To access it:
+report results in [TAP][] format. This package is a port of `node:test`.
+To access it:
 
 ```mjs
 import test from 'test'
@@ -105,7 +99,7 @@ As a test file executes, TAP is written to the standard output of the Node.js
 process. This output can be interpreted by any test harness that understands
 the TAP format. If any tests fail, the process exit code is set to `1`.
 
-## Subtests
+#### Subtests
 
 The test context's `test()` method allows subtests to be created. This method
 behaves identically to the top level `test()` function. The following example
@@ -413,11 +407,6 @@ behaves in the same fashion as the top level [`test()`][] function.
 [`testcontext`]: #class-testcontext
 [`test()`]: #testname-options-fn
 [test runner execution model]: #test-runner-execution-model
-
-## Kudos
-
-Thank you [@aduh95](https://github.com/aduh95) for sharing the new `node:test`
-module in the [@transloadit](https://github.com/transloadit) Slack.
 
 ## License
 
