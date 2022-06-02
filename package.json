@@ -21,8 +21,7 @@
     "test:unit": "node test/parallel/* && node test/message && node test/node-core-test.js"
   },
   "devDependencies": {
-    "standard": "^17.0.0",
-    "typescript": "^4.6.3"
+    "standard": "^17.0.0"
   },
   "dependencies": {
     "minimist": "^1.2.6",
