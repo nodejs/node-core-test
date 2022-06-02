@@ -8,6 +8,7 @@
   "types": "./index.d.ts",
   "bin": {
     "node--test": "./bin/node--test.js",
+    "node--test-only": "./bin/node--test-only.js",
     "test": "./bin/node-core-test.js"
   },
   "imports": {
