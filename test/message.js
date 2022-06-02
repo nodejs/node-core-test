@@ -7,7 +7,7 @@ const { exec } = require('node:child_process')
 const { createInterface } = require('node:readline')
 
 const { bin } = require('../package.json')
-const binPath = resolve(__dirname, '..', bin['node-core-test'])
+const binPath = resolve(__dirname, '..', bin.test)
 
 const MESSAGE_FOLDER = join(__dirname, './message/')
 const WAIT_FOR_ELLIPSIS = Symbol('wait for ellispis')

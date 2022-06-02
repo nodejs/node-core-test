@@ -1,8 +1,8 @@
-# node-core-test
+# The `test` npm package
 
-[![CI](https://github.com/juliangruber/node-core-test/actions/workflows/ci.yml/badge.svg)](https://github.com/juliangruber/node-core-test/actions/workflows/ci.yml)
+[![CI](https://github.com/nodejs/node-core-test/actions/workflows/ci.yml/badge.svg)](https://github.com/nodejs/node-core-test/actions/workflows/ci.yml)
 
-This is a user-land port of [`node:test`](https://github.com/nodejs/node/blob/adaf60240559ffb58636130950262ee3237b7a41/doc/api/test.md),
+This is a user-land port of [`node:test`](https://nodejs.org/api/test.html),
 the experimental test runner introduced in Node.js 18. This module makes it
 available in Node.js 14 and later.
 
@@ -31,11 +31,11 @@ The `node:test` module facilitates the creation of JavaScript tests that
 report results in [TAP][] format. To access it:
 
 ```mjs
-import test from 'node-core-test'
+import test from 'test'
 ```
 
 ```cjs
-const test = require('node-core-test')
+const test = require('test')
 ```
 
 Tests created via the `test` module consist of a single function that is
@@ -160,14 +160,14 @@ test('skip() method with message', t => {
 
 ### `only` tests
 
-If `node-core-test` is started with the `--test-only` command-line option, it is
+If `node--test` is started with the `--test-only` command-line option, it is
 possible to skip all top level tests except for a selected subset by passing
 the `only` option to the tests that should be run. When a test with the `only`
 option set is run, all subtests are also run. The test context's `runOnly()`
 method can be used to implement the same behavior at the subtest level.
 
 ```js
-// Assume node-core-test is run with the --test-only command-line option.
+// Assume node--test is run with the --test-only command-line option.
 // The 'only' option is set, so this test is run.
 test('this test is run', { only: true }, async t => {
   // Within this test, all subtests are run by default.
@@ -234,8 +234,6 @@ test('a test that creates asynchronous activity', t => {
 The Node.js test runner can be invoked from the command line:
 
 ```bash
-node-core-test --test
-# or use the shortcut version:
 node--test
 ```
 
@@ -249,7 +247,7 @@ Alternatively, one or more paths can be provided as the final argument(s) to
 the Node.js command, as shown below.
 
 ```bash
-node-core-test --test test1.js test2.mjs custom_test_dir/
+node--test test1.js test2.mjs custom_test_dir/
 node--test test1.js test2.mjs custom_test_dir/
 ```
 
