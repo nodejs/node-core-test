@@ -160,7 +160,7 @@ test('skip() method with message', t => {
 
 ### `only` tests
 
-If `test` is started with the `--test-only` command-line option, it is
+If `node--test` is started with the `--test-only` command-line option, it is
 possible to skip all top level tests except for a selected subset by passing
 the `only` option to the tests that should be run. When a test with the `only`
 option set is run, all subtests are also run. The test context's `runOnly()`
@@ -234,8 +234,6 @@ test('a test that creates asynchronous activity', t => {
 The Node.js test runner can be invoked from the command line:
 
 ```bash
-test --test
-# or use the shortcut version:
 node--test
 ```
 
