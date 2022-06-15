@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/nodejs/node-core-test/compare/v3.0.0...v3.0.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* **doc:** add link to LICENSE in README ([#16](https://github.com/nodejs/node-core-test/issues/16)) ([c3ca913](https://github.com/nodejs/node-core-test/commit/c3ca9130cd60391db4953aecd942b38a2669209e))
+
 ## [3.0.0](https://github.com/nodejs/node-core-test/compare/v2.0.0...v3.0.0) (2022-06-02)
 
 
