@@ -410,4 +410,4 @@ behaves in the same fashion as the top level [`test()`][] function.
 
 ## License
 
-MIT
+[MIT](./LICENSE)
