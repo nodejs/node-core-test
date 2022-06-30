@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/a3e110820ff98702e1761831e7beaf0f5f1f75e7/test/message/test_runner_desctibe_it.js
+// https://github.com/nodejs/node/blob/659dc126932f986fc33c7f1c878cb2b57a1e2fac/test/message/test_runner_desctibe_it.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -213,15 +213,15 @@ it('callback fail', (done) => {
 })
 
 it('sync t is this in test', function () {
-  assert.deepStrictEqual(this, { signal: this.signal })
+  assert.deepStrictEqual(this, { signal: this.signal, name: this.name })
 })
 
 it('async t is this in test', async function () {
-  assert.deepStrictEqual(this, { signal: this.signal })
+  assert.deepStrictEqual(this, { signal: this.signal, name: this.name })
 })
 
 it('callback t is this in test', function (done) {
-  assert.deepStrictEqual(this, { signal: this.signal })
+  assert.deepStrictEqual(this, { signal: this.signal, name: this.name })
   done()
 })
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict'
 
 const { createReadStream, promises: fs } = require('node:fs')
