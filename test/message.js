@@ -21,20 +21,35 @@ function readLines (file) {
   })
 }
 
+const stackTraceStartLine = /^\s+stack: \|-$/
+const stackTraceLine = /^\s+\*$/
+const stackTraceEndLine = /^\s+\.\.\.$/
+
+const nodejs14NotEmittedWarn = /^# Warning:.*\breject/
+
 // https://github.com/nodejs/node/blob/1aab13cad9c800f4121c1d35b554b78c1b17bdbd/test/message/testcfg.py#L53
 async function IsFailureOutput (self, output) {
   // Convert output lines to regexps that we can match
   const patterns = []
   for await (const line of readLines(self.expected)) {
-    if (!line.trim()) continue
+    // Our implementation outputs different stack traces than the Node.js implementation.
+    if (stackTraceLine.test(line) && patterns[patterns.length - 1] === WAIT_FOR_ELLIPSIS) continue
+
+    // Node.js 14 doesn't emit some warnings
+    if (process.version.startsWith('v14.') && nodejs14NotEmittedWarn.test(line)) continue
+
+    // Sometimes Node.js won't have any stack trace, but we would
+    if (stackTraceEndLine.test(line) && patterns[patterns.length - 1].toString().endsWith("code: 'ERR_TEST_FAILURE'$")) {
+      patterns.push(stackTraceStartLine, WAIT_FOR_ELLIPSIS)
+    }
+
     const pattern = line
-      .trimEnd()
       .replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
       .replace(/\\\*/g, '.*')
     patterns.push(`^${pattern}$`)
 
-    if (/^\s+stack: \|-$/.test(line)) {
-      // Our implementation outputs more info in its stack trace than the Node.js implementation.
+    if (stackTraceStartLine.test(line)) {
+      // Our implementation outputs different stack traces than the Node.js implementation.
       patterns.push(WAIT_FOR_ELLIPSIS)
     }
   }
@@ -47,15 +62,15 @@ async function IsFailureOutput (self, output) {
   for (let i = 0; i < outlines.length; i++) {
     if (patterns[i] === WAIT_FOR_ELLIPSIS) {
       waitingForEllipsis = true
-    } else if (!new RegExp(patterns[i]).test(outlines[i])) {
+    } else if (!new RegExp(patterns[i]).test(outlines[i].trimEnd())) {
       if (waitingForEllipsis) {
         patterns.splice(i, 0, WAIT_FOR_ELLIPSIS)
         continue
       }
       console.log('match failed', { line: i + 1, expected: patterns[i], actual: outlines[i] })
-      console.log(Array.from({ length: Math.min(patterns.length, outlines.length) }, (_, i) => ({ line: i + 1, expected: patterns[i], actual: outlines[i] })))
+      console.log(Array.from({ length: Math.min(patterns.length, outlines.length) }, (_, i) => ({ line: i + 1, expected: patterns[i], actual: outlines[i] })).slice(Math.max(0, i - 5), i + 5))
       return true
-    } else if (waitingForEllipsis && outlines[i].includes('...')) {
+    } else if (waitingForEllipsis && stackTraceEndLine.test(outlines[i])) {
       waitingForEllipsis = false
     }
   }
