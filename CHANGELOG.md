@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.1.0](https://github.com/nodejs/node-core-test/compare/v3.0.1...v3.1.0) (2022-07-09)
+
+
+### Features
+
+* add Subtest to tap protocol output ([fc0256b](https://github.com/nodejs/node-core-test/commit/fc0256b4fb5a4232e5100dd662c4d0edfaa98a36))
+* cancel on termination ([826048c](https://github.com/nodejs/node-core-test/commit/826048cc350c9f5a92e0681b50d0659241806b0f))
+* expose `describe` and `it` ([e29cd3f](https://github.com/nodejs/node-core-test/commit/e29cd3f4a9488a9b9322f31a32f7014b5b330b4e))
+
+
+### Bug Fixes
+
+* wait for stderr and stdout to complete ([bee4a6a](https://github.com/nodejs/node-core-test/commit/bee4a6abd87a2edd9dbdfb2749cedba02bf4230e))
+
 ## [3.0.1](https://github.com/nodejs/node-core-test/compare/v3.0.0...v3.0.1) (2022-06-15)
 
 
