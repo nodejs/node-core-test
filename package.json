@@ -13,6 +13,7 @@
   },
   "imports": {
     "#internal/*": "./lib/internal/*.js",
+    "#timers/*": "./lib/timers/*.js",
     "#node:test": "./lib/test.js"
   },
   "scripts": {
