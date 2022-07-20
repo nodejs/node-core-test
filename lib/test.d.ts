@@ -22,18 +22,30 @@ type TestFn = (t: TestContext) => any | Promise<any>
 
 export default test
 
-/**
- * @returns Whether `string` is a URL.
- */
-declare function test (name: string, options: TestOptions, fn: TestFn): void
-declare function test (name: string, fn: TestFn): void
-declare function test (fn: TestFn): void
+export function test (name: string, options: TestOptions, fn: TestFn): void
+export function test (name: string, fn: TestFn): void
+export function test (options: TestOptions, fn: TestFn): void
+export function test (fn: TestFn): void
+
+type SuiteFn = () => void;
+
+export function describe (name: string, options: TestOptions, fn: SuiteFn): void
+export function describe (name: string, fn: SuiteFn): void
+export function describe (options: TestOptions, fn: SuiteFn): void
+export function describe (fn: SuiteFn): void
+
+type ItFn = () => any | Promise<any>
+
+export function it (name: string, options: TestOptions, fn: ItFn): void
+export function it (name: string, fn: ItFn): void
+export function it (options: TestOptions, fn: ItFn): void
+export function it (fn: ItFn): void
 
 /**
  * An instance of TestContext is passed to each test function in order to interact with the test runner.
  * However, the TestContext constructor is not exposed as part of the API.
  */
-export class TestContext {
+declare class TestContext {
   /**
    * This function is used to create subtests under the current test. This function behaves in the same fashion as the top level test() function.
    */
