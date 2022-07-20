@@ -11,6 +11,7 @@ Minimal dependencies, with full test suite.
 Differences from the core implementation:
 
 - Doesn't hide its own stack frames.
+- Requires `--experimental-abortcontroller` CLI flag to work on Node.js v14.x.
 
 ## Docs
 
@@ -333,6 +334,7 @@ internally.
   - `only` {boolean} If truthy, and the test context is configured to run
     `only` tests, then this test will be run. Otherwise, the test is skipped.
     **Default:** `false`.
+  * `signal` {AbortSignal} Allows aborting an in-progress test
   - `skip` {boolean|string} If truthy, the test is skipped. If a string is
     provided, that string is displayed in the test results as the reason for
     skipping the test. **Default:** `false`.
@@ -386,8 +388,9 @@ thus prevent the scheduled cancellation.
   does not have a name.
 * `options` {Object} Configuration options for the suite.
   supports the same options as `test([name][, options][, fn])`
-* `fn` {Function} The function under suite.
-  a synchronous function declaring all subtests and subsuites.
+* `fn` {Function|AsyncFunction} The function under suite
+  declaring all subtests and subsuites.
+  The first argument to this function is a [`SuiteContext`][] object.
   **Default:** A no-op function.
 * Returns: `undefined`.
 
@@ -455,6 +458,16 @@ have the `only` option set. Otherwise, all tests are run. If Node.js was not
 started with the [`--test-only`][] command-line option, this function is a
 no-op.
 
+### `context.signal`
+
+* [`AbortSignal`][] Can be used to abort test subtasks when the test has been aborted.
+
+```js
+test('top level test', async (t) => {
+  await fetch('some/uri', { signal: t.signal });
+});
+```
+
 ### `context.skip([message])`
 
 - `message` {string} Optional skip message to be displayed in TAP output.
@@ -503,8 +516,20 @@ execution of the test function. This function does not return a value.
 This function is used to create subtests under the current test. This function
 behaves in the same fashion as the top level [`test()`][] function.
 
-[tap]: https://testanything.org/
-[`testcontext`]: #class-testcontext
+## Class: `SuiteContext`
+
+An instance of `SuiteContext` is passed to each suite function in order to
+interact with the test runner. However, the `SuiteContext` constructor is not
+exposed as part of the API.
+
+### `context.signal`
+
+* [`AbortSignal`][] Can be used to abort test subtasks when the test has been aborted.
+
+[`AbortSignal`]: https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal
+[TAP]: https://testanything.org/
+[`SuiteContext`]: #class-suitecontext
+[`TestContext`]: #class-testcontext
 [`test()`]: #testname-options-fn
 [describe options]: #describename-options-fn
 [it options]: #testname-options-fn

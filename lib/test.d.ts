@@ -16,6 +16,17 @@ interface TestOptions {
    * Default: false.
    */
   todo?: boolean | string
+
+  /**
+   * A number of milliseconds the test will fail after. If unspecified, subtests inherit this value from their parent.
+   * Default: Infinity
+   */
+  timeout?: number;
+
+  /**
+   * Allows aborting an in-progress test
+   */
+  signal?: AbortSignal;
 }
 
 type TestFn = (t: TestContext) => any | Promise<any>
@@ -27,14 +38,14 @@ export function test (name: string, fn: TestFn): void
 export function test (options: TestOptions, fn: TestFn): void
 export function test (fn: TestFn): void
 
-type SuiteFn = () => void;
+type SuiteFn = (t: SuiteContext) => void;
 
 export function describe (name: string, options: TestOptions, fn: SuiteFn): void
 export function describe (name: string, fn: SuiteFn): void
 export function describe (options: TestOptions, fn: SuiteFn): void
 export function describe (fn: SuiteFn): void
 
-type ItFn = () => any | Promise<any>
+type ItFn = (t: ItContext) => any | Promise<any>
 
 export function it (name: string, options: TestOptions, fn: ItFn): void
 export function it (name: string, fn: ItFn): void
@@ -45,7 +56,7 @@ export function it (fn: ItFn): void
  * An instance of TestContext is passed to each test function in order to interact with the test runner.
  * However, the TestContext constructor is not exposed as part of the API.
  */
-declare class TestContext {
+ declare class TestContext {
   /**
    * This function is used to create subtests under the current test. This function behaves in the same fashion as the top level test() function.
    */
@@ -78,4 +89,34 @@ declare class TestContext {
    * @param message Optional TODO message to be displayed in TAP output.
    */
   public todo (message?: string): void
+
+  /**
+   * Can be used to abort test subtasks when the test has been aborted.
+   */
+  public signal: AbortSignal
+}
+
+
+/**
+ * An instance of SuiteContext is passed to each suite function in order to interact with the test runner. 
+ * However, the SuiteContext constructor is not exposed as part of the API.
+ */
+ declare class SuiteContext {
+
+  /**
+   * Can be used to abort test subtasks when the test has been aborted.
+   */
+  public signal: AbortSignal
+}
+
+/**
+ * An instance of ItContext is passed to each suite function in order to interact with the test runner. 
+ * However, the ItContext constructor is not exposed as part of the API.
+ */
+ declare class ItContext {
+
+  /**
+   * Can be used to abort test subtasks when the test has been aborted.
+   */
+  public signal: AbortSignal
 }

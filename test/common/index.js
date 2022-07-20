@@ -102,6 +102,43 @@ function expectsError (validator, exact) {
   }, exact)
 }
 
+if (typeof AbortSignal.timeout !== 'function') {
+  class AbortError extends Error {
+    constructor (message = 'The operation was aborted', options = undefined) {
+      super(message, options)
+      this.code = 23
+    }
+  }
+
+  AbortSignal.timeout = function timeout (delay) {
+    const ac = new AbortController()
+    setTimeout(() => ac.abort(new AbortError(
+      'The operation was aborted due to timeout')), delay).unref()
+    return ac.signal
+  }
+}
+
+if (process.version.startsWith('v14.') || process.version.startsWith('v16.')) {
+  AbortSignal.abort = () => {
+    const controller = new AbortController()
+    const error = new Error('This operation was aborted')
+    error.code = 20
+    controller.abort(error)
+    return controller.signal
+  }
+  const nativeAbort = AbortController.prototype.abort
+  AbortController.prototype.abort = function abort (reason) {
+    if (arguments.length === 0) {
+      reason = new Error('This operation was aborted')
+      reason.code = 20
+    }
+    if (process.version.startsWith('v14.')) {
+      this.signal.reason = reason
+    }
+    nativeAbort.call(this, reason)
+  }
+}
+
 module.exports = {
   expectsError
 }

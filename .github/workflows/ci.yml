@@ -9,6 +9,9 @@ jobs:
     strategy:
       matrix:
         node: ['14', '16', '18']
+        include:
+          - node: '14'
+            env: --experimental-abortcontroller --no-warnings
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -16,3 +19,5 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm ci
       - run: npm test
+        env:
+          NODE_OPTIONS: ${{ matrix.env }}
