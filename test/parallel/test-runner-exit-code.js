@@ -1,8 +1,9 @@
-// https://github.com/nodejs/node/blob/1523a1817ed9b06fb51c0149451f9ea31bd2756e/test/parallel/test-runner-exit-code.js
+// https://github.com/nodejs/node/blob/2fd4c013c221653da2a7921d08fe1aa96aaba504/test/parallel/test-runner-exit-code.js
 
 'use strict'
 
 const common = require('../common')
+const fixtures = require('../common/fixtures')
 const assert = require('assert')
 const { spawnSync } = require('child_process')
 const { promisify } = require('util')
@@ -29,6 +30,10 @@ if (process.argv[2] === 'child') {
   } else assert.fail('unreachable')
 } else {
   let child = spawnSync(process.execPath, [__filename, 'child', 'pass'])
+  assert.strictEqual(child.status, 0)
+  assert.strictEqual(child.signal, null)
+
+  child = spawnSync(process.execPath, ['--test', fixtures.path('test-runner', 'subdir', 'subdir_test.js')])
   assert.strictEqual(child.status, 0)
   assert.strictEqual(child.signal, null)
 
