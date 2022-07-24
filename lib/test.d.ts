@@ -3,7 +3,7 @@ interface TestOptions {
    * The number of tests that can be run at the same time. If unspecified, subtests inherit this value from their parent.
    * Default: 1.
    */
-  concurrency?: number
+  concurrency?: boolean | number
 
   /**
    * If truthy, the test is skipped. If a string is provided, that string is displayed in the test results as the reason for skipping the test.
