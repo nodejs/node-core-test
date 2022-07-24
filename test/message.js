@@ -60,9 +60,10 @@ async function IsFailureOutput (self, output) {
 
   let waitingForEllipsis = false
   for (let i = 0; i < outlines.length; i++) {
+    let regex
     if (patterns[i] === WAIT_FOR_ELLIPSIS) {
       waitingForEllipsis = true
-    } else if (!new RegExp(patterns[i]).test(outlines[i].trimEnd())) {
+    } else if (!(regex = new RegExp(patterns[i])).test(outlines[i]) && !regex.test(outlines[i].trimEnd())) {
       if (waitingForEllipsis) {
         patterns.splice(i, 0, WAIT_FOR_ELLIPSIS)
         continue
