@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.2.0](https://github.com/nodejs/node-core-test/compare/v3.1.0...v3.2.0) (2022-07-25)
+
+
+### Features
+
+* add support for boolean values for `concurrency` option ([ba8fd71](https://github.com/nodejs/node-core-test/commit/ba8fd7183db7df0a72b2cab2a37ef1e1e6077185))
+* pass signal on timeout ([3814bf0](https://github.com/nodejs/node-core-test/commit/3814bf04a3b2adea7dda1cf462c03b575eedf46f))
+* recieve and pass AbortSignal ([558abfc](https://github.com/nodejs/node-core-test/commit/558abfc9a691e02f191c61ba16b976c9d5604da1))
+* validate `timeout` option ([cf78656](https://github.com/nodejs/node-core-test/commit/cf78656f4293253a69d04a1fd4cdc6324d49ee4d))
+
+
+### Bug Fixes
+
+* do not report an error when tests are passing ([10146fa](https://github.com/nodejs/node-core-test/commit/10146fa81daa5b808710519b6d458e5d5180f7ba))
+
 ## [3.1.0](https://github.com/nodejs/node-core-test/compare/v3.0.1...v3.1.0) (2022-07-20)
 
 
