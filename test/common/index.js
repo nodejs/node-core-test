@@ -103,6 +103,9 @@ function expectsError (validator, exact) {
 }
 
 if (typeof AbortSignal.timeout !== 'function') {
+  // `AbortSignal.timeout` is not available on Node.js 14.x, we need to polyfill
+  // it because some tests are using it. End-users don't need to it.
+
   class AbortError extends Error {
     constructor (message = 'The operation was aborted', options = undefined) {
       super(message, options)
@@ -119,22 +122,22 @@ if (typeof AbortSignal.timeout !== 'function') {
 }
 
 if (process.version.startsWith('v14.') || process.version.startsWith('v16.')) {
-  AbortSignal.abort = () => {
+  // Implementation of AbortSignal and AbortController differ slightly with the
+  // v18.x one, creating some difference on the TAP output which makes the tests
+  // fail. We are overriding the built-ins to make the test pass, however that's
+  // not necessary to do for the library to work (i.e. end-users don't need it).
+
+  const defaultAbortError = new Error('This operation was aborted')
+  defaultAbortError.code = 20
+
+  AbortSignal.abort = function abort (reason = defaultAbortError) {
     const controller = new AbortController()
-    const error = new Error('This operation was aborted')
-    error.code = 20
-    controller.abort(error)
+    controller.abort(reason)
     return controller.signal
   }
   const nativeAbort = AbortController.prototype.abort
-  AbortController.prototype.abort = function abort (reason) {
-    if (arguments.length === 0) {
-      reason = new Error('This operation was aborted')
-      reason.code = 20
-    }
-    if (process.version.startsWith('v14.')) {
-      this.signal.reason = reason
-    }
+  AbortController.prototype.abort = function abort (reason = defaultAbortError) {
+    this.signal.reason = reason
     nativeAbort.call(this, reason)
   }
 }
