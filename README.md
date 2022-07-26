@@ -339,7 +339,7 @@ internally.
   - `only` {boolean} If truthy, and the test context is configured to run
     `only` tests, then this test will be run. Otherwise, the test is skipped.
     **Default:** `false`.
-  * `signal` {AbortSignal} Allows aborting an in-progress test
+  * `signal` {AbortSignal} Allows aborting an in-progress test.
   - `skip` {boolean|string} If truthy, the test is skipped. If a string is
     provided, that string is displayed in the test results as the reason for
     skipping the test. **Default:** `false`.
@@ -506,7 +506,7 @@ execution of the test function. This function does not return a value.
   - `skip` {boolean|string} If truthy, the test is skipped. If a string is
     provided, that string is displayed in the test results as the reason for
     skipping the test. **Default:** `false`.
-  - `signal` {AbortSignal} Allows aborting an in-progress test
+  - `signal` {AbortSignal} Allows aborting an in-progress test.
   - `todo` {boolean|string} If truthy, the test marked as `TODO`. If a string
     is provided, that string is displayed in the test results as the reason why
     the test is `TODO`. **Default:** `false`.
