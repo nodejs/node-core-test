@@ -1,13 +1,31 @@
-// https://github.com/nodejs/node/blob/2fd4c013c221653da2a7921d08fe1aa96aaba504/test/parallel/test-runner-exit-code.js
-
+// https://github.com/nodejs/node/blob/26e27424ad91c60a44d3d4c58b62a39b555ba75d/test/parallel/test-runner-exit-code.js
 'use strict'
-
 const common = require('../common')
 const fixtures = require('../common/fixtures')
 const assert = require('assert')
-const { spawnSync } = require('child_process')
-const { promisify } = require('util')
-const setTimeout = promisify(require('timers').setTimeout)
+const { spawnSync, spawn } = require('child_process')
+const { once } = require('events')
+const finished = require('util').promisify(require('stream').finished)
+
+async function runAndKill (file) {
+  if (common.isWindows) {
+    common.printSkipMessage(`signals are not supported in windows, skipping ${file}`)
+    return
+  }
+  let stdout = ''
+  const child = spawn(process.execPath, ['--test', file])
+  child.stdout.setEncoding('utf8')
+  child.stdout.on('data', (chunk) => {
+    if (!stdout.length) child.kill('SIGINT')
+    stdout += chunk
+  })
+  const [code, signal] = await once(child, 'exit')
+  await finished(child.stdout)
+  assert.match(stdout, /not ok 1/)
+  assert.match(stdout, /# cancelled 1\n/)
+  assert.strictEqual(signal, null)
+  assert.strictEqual(code, 1)
+}
 
 if (process.argv[2] === 'child') {
   const test = require('#node:test')
@@ -21,12 +39,6 @@ if (process.argv[2] === 'child') {
     test('failing test', () => {
       assert.strictEqual(true, false)
     })
-  } else if (process.argv[3] === 'never_ends') {
-    assert.strictEqual(process.argv[3], 'never_ends')
-    test('never ending test', () => {
-      return setTimeout(100_000_000)
-    })
-    process.kill(process.pid, 'SIGINT')
   } else assert.fail('unreachable')
 } else {
   let child = spawnSync(process.execPath, [__filename, 'child', 'pass'])
@@ -41,14 +53,6 @@ if (process.argv[2] === 'child') {
   assert.strictEqual(child.status, 1)
   assert.strictEqual(child.signal, null)
 
-  child = spawnSync(process.execPath, [__filename, 'child', 'never_ends'])
-  assert.strictEqual(child.status, 1)
-  assert.strictEqual(child.signal, null)
-  if (common.isWindows) {
-    common.printSkipMessage('signals are not supported in windows')
-  } else {
-    const stdout = child.stdout.toString()
-    assert.match(stdout, /not ok 1 - never ending test/)
-    assert.match(stdout, /# cancelled 1/)
-  }
+  runAndKill(fixtures.path('test-runner', 'never_ending_sync.js')).then(common.mustCall())
+  runAndKill(fixtures.path('test-runner', 'never_ending_async.js')).then(common.mustCall())
 }

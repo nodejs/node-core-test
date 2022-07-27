@@ -143,5 +143,7 @@ if (process.version.startsWith('v14.') || process.version.startsWith('v16.')) {
 }
 
 module.exports = {
-  expectsError
+  expectsError,
+  isWindow: process.platform === 'win32',
+  mustCall
 }
