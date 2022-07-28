@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/8cbc39068cd102e3bbdb6c5a1d14ce450e6ef093/test/message/test_runner_output.js
+// https://github.com/nodejs/node/blob/a3e110820ff98702e1761831e7beaf0f5f1f75e7/test/message/test_runner_output.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -348,4 +348,26 @@ test('large timeout async test is ok', { timeout: 30_000_000 }, async (t) => {
 
 test('large timeout callback test is ok', { timeout: 30_000_000 }, (t, done) => {
   setTimeout(done, 10)
+})
+
+test('successful thenable', () => {
+  let thenCalled = false
+  return {
+    get then () {
+      if (thenCalled) throw new Error()
+      thenCalled = true
+      return (successHandler) => successHandler()
+    }
+  }
+})
+
+test('rejected thenable', () => {
+  let thenCalled = false
+  return {
+    get then () {
+      if (thenCalled) throw new Error()
+      thenCalled = true
+      return (_, errorHandler) => errorHandler('custom error')
+    }
+  }
 })

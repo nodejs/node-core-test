@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/389b7e138e89a339fabe4ad628bf09cd9748f957/test/message/test_runner_desctibe_it.js
+// https://github.com/nodejs/node/blob/a3e110820ff98702e1761831e7beaf0f5f1f75e7/test/message/test_runner_desctibe_it.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -147,18 +147,6 @@ describe('level 0a', { concurrency: 4 }, () => {
   })
 
   return p0a
-})
-
-describe('top level', { concurrency: 2 }, () => {
-  it('+long running', async () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(resolve, 3000).unref()
-    })
-  })
-
-  describe('+short running', async () => {
-    it('++short running', async () => {})
-  })
 })
 
 describe('invalid subtest - pass but subtest fails', () => {
@@ -337,4 +325,48 @@ describe('timeouts', () => {
   it('large timeout callback test is ok', { timeout: 30_000_000 }, (done) => {
     setTimeout(done, 10)
   })
+})
+
+describe('successful thenable', () => {
+  it('successful thenable', () => {
+    let thenCalled = false
+    return {
+      get then () {
+        if (thenCalled) throw new Error()
+        thenCalled = true
+        return (successHandler) => successHandler()
+      }
+    }
+  })
+
+  it('rejected thenable', () => {
+    let thenCalled = false
+    return {
+      get then () {
+        if (thenCalled) throw new Error()
+        thenCalled = true
+        return (_, errorHandler) => errorHandler(new Error('custom error'))
+      }
+    }
+  })
+
+  let thenCalled = false
+  return {
+    get then () {
+      if (thenCalled) throw new Error()
+      thenCalled = true
+      return (successHandler) => successHandler()
+    }
+  }
+})
+
+describe('rejected thenable', () => {
+  let thenCalled = false
+  return {
+    get then () {
+      if (thenCalled) throw new Error()
+      thenCalled = true
+      return (_, errorHandler) => errorHandler(new Error('custom error'))
+    }
+  }
 })
