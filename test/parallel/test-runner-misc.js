@@ -4,10 +4,10 @@
 const common = require('../common')
 const assert = require('assert')
 const { spawnSync } = require('child_process')
-const { setTimeout } = require('timers/promises')
+const { setTimeout } = require('#timers/promises')
 
 if (process.argv[2] === 'child') {
-  const test = require('node:test')
+  const test = require('#node:test')
 
   if (process.argv[3] === 'abortSignal') {
     assert.throws(() => test({ signal: {} }), {

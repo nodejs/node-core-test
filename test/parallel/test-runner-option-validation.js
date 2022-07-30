@@ -3,7 +3,7 @@
 'use strict'
 require('../common')
 const assert = require('assert')
-const test = require('node:test');
+const test = require('#node:test');
 
 // eslint-disable-next-line symbol-description
 [Symbol(), {}, [], () => {}, 1n, true, '1'].forEach((timeout) => {
