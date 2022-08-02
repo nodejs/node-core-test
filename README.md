@@ -11,7 +11,6 @@ Minimal dependencies, with full test suite.
 Differences from the core implementation:
 
 - Doesn't hide its own stack frames.
-- Requires `--experimental-abortcontroller` CLI flag to work on Node.js v14.x.
 
 ## Docs
 
@@ -339,7 +338,7 @@ internally.
   - `only` {boolean} If truthy, and the test context is configured to run
     `only` tests, then this test will be run. Otherwise, the test is skipped.
     **Default:** `false`.
-  * `signal` {AbortSignal} Allows aborting an in-progress test.
+  - `signal` {AbortSignal} Allows aborting an in-progress test (except on Node.js v14.x).
   - `skip` {boolean|string} If truthy, the test is skipped. If a string is
     provided, that string is displayed in the test results as the reason for
     skipping the test. **Default:** `false`.
@@ -448,7 +447,7 @@ same as [`it([name], { todo: true }[, fn])`][it options].
   function.
 * `options` {Object} Configuration options for the hook. The following
   properties are supported:
-  * `signal` {AbortSignal} Allows aborting an in-progress hook.
+  * `signal` {AbortSignal} Allows aborting an in-progress hook (except on Node.js v14.x).
   * `timeout` {number} A number of milliseconds the hook will fail after.
     If unspecified, subtests inherit this value from their parent.
     **Default:** `Infinity`.
@@ -472,7 +471,7 @@ describe('tests', async () => {
   function.
 * `options` {Object} Configuration options for the hook. The following
   properties are supported:
-  * `signal` {AbortSignal} Allows aborting an in-progress hook.
+  * `signal` {AbortSignal} Allows aborting an in-progress hook (except on Node.js v14.x).
   * `timeout` {number} A number of milliseconds the hook will fail after.
     If unspecified, subtests inherit this value from their parent.
     **Default:** `Infinity`.
@@ -496,7 +495,7 @@ describe('tests', async () => {
   function.
 * `options` {Object} Configuration options for the hook. The following
   properties are supported:
-  * `signal` {AbortSignal} Allows aborting an in-progress hook.
+  * `signal` {AbortSignal} Allows aborting an in-progress hook (except on Node.js v14.x).
   * `timeout` {number} A number of milliseconds the hook will fail after.
     If unspecified, subtests inherit this value from their parent.
     **Default:** `Infinity`.
@@ -521,7 +520,7 @@ describe('tests', async () => {
   function.
 * `options` {Object} Configuration options for the hook. The following
   properties are supported:
-  * `signal` {AbortSignal} Allows aborting an in-progress hook.
+  * `signal` {AbortSignal} Allows aborting an in-progress hook (except on Node.js v14.x).
   * `timeout` {number} A number of milliseconds the hook will fail after.
     If unspecified, subtests inherit this value from their parent.
     **Default:** `Infinity`.
@@ -552,7 +551,7 @@ exposed as part of the API.
   function.
 * `options` {Object} Configuration options for the hook. The following
   properties are supported:
-  * `signal` {AbortSignal} Allows aborting an in-progress hook.
+  * `signal` {AbortSignal} Allows aborting an in-progress hook (except on Node.js v14.x).
   * `timeout` {number} A number of milliseconds the hook will fail after.
     If unspecified, subtests inherit this value from their parent.
     **Default:** `Infinity`.
@@ -580,7 +579,7 @@ test('top level test', async (t) => {
   function.
 * `options` {Object} Configuration options for the hook. The following
   properties are supported:
-  * `signal` {AbortSignal} Allows aborting an in-progress hook.
+  * `signal` {AbortSignal} Allows aborting an in-progress hook (except on Node.js v14.x).
   * `timeout` {number} A number of milliseconds the hook will fail after.
     If unspecified, subtests inherit this value from their parent.
     **Default:** `Infinity`.
@@ -664,7 +663,7 @@ execution of the test function. This function does not return a value.
   - `skip` {boolean|string} If truthy, the test is skipped. If a string is
     provided, that string is displayed in the test results as the reason for
     skipping the test. **Default:** `false`.
-  - `signal` {AbortSignal} Allows aborting an in-progress test.
+  - `signal` {AbortSignal} Allows aborting an in-progress test (except on Node.js v14.x).
   - `todo` {boolean|string} If truthy, the test marked as `TODO`. If a string
     is provided, that string is displayed in the test results as the reason why
     the test is `TODO`. **Default:** `false`.
