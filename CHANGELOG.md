@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/nodejs/node-core-test/compare/v3.2.0...v3.2.1) (2022-08-03)
+
+
+### Bug Fixes
+
+* make test runner work even if there is no `AbortSignal` support ([#36](https://github.com/nodejs/node-core-test/issues/36)) ([cb2e4fd](https://github.com/nodejs/node-core-test/commit/cb2e4fd52e782de13dfae3ac3a371aa7e0e94c29))
+
 ## [3.2.0](https://github.com/nodejs/node-core-test/compare/v3.1.0...v3.2.0) (2022-08-01)
 
 
