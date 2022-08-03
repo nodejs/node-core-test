@@ -11,6 +11,10 @@ Minimal dependencies, with full test suite.
 Differences from the core implementation:
 
 - Doesn't hide its own stack frames.
+- Some features require the use of `--experimental-abortcontroller` CLI flag to
+  work on Node.js v14.x. It's recommended to pass
+  `NODE_OPTIONS='--experimental-abortcontroller --no-warnings'` in your env if
+  you are testing on v14.x.
 
 ## Docs
 
