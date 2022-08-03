@@ -11,7 +11,10 @@ Minimal dependencies, with full test suite.
 Differences from the core implementation:
 
 - Doesn't hide its own stack frames.
-- Requires `--experimental-abortcontroller` CLI flag to work on Node.js v14.x.
+- Some features require the use of `--experimental-abortcontroller` CLI flag to
+  work on Node.js v14.x. It's recommended to pass
+  `NODE_OPTIONS='--experimental-abortcontroller --no-warnings'` in your env if
+  you are testing on v14.x.
 
 ## Docs
 
@@ -339,7 +342,7 @@ internally.
   - `only` {boolean} If truthy, and the test context is configured to run
     `only` tests, then this test will be run. Otherwise, the test is skipped.
     **Default:** `false`.
-  * `signal` {AbortSignal} Allows aborting an in-progress test.
+  - `signal` {AbortSignal} Allows aborting an in-progress test.
   - `skip` {boolean|string} If truthy, the test is skipped. If a string is
     provided, that string is displayed in the test results as the reason for
     skipping the test. **Default:** `false`.
@@ -625,6 +628,11 @@ no-op.
 
 * [`AbortSignal`][] Can be used to abort test subtasks when the test has been aborted.
 
+> **Warning**
+> On Node.js v14.x, this feature won't be available unless you pass the
+> `--experimental-abortcontroller` CLI flag or added an external global polyfill
+> for `AbortController`.
+
 ```js
 test('top level test', async (t) => {
   await fetch('some/uri', { signal: t.signal });
@@ -693,6 +701,12 @@ The name of the suite.
 ### `context.signal`
 
 * [`AbortSignal`][] Can be used to abort test subtasks when the test has been aborted.
+
+> **Warning**
+> On Node.js v14.x, this feature won't be available unless you pass the
+> `--experimental-abortcontroller` CLI flag or added an external global polyfill
+> for `AbortController`.
+
 
 [`AbortSignal`]: https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal
 [TAP]: https://testanything.org/

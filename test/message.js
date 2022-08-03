@@ -84,6 +84,10 @@ const main = async () => {
   for await (const dirent of dir) {
     const ext = extname(dirent.name)
     if (ext === '.js' || ext === '.mjs') {
+      if (typeof AbortSignal === 'undefined' && dirent.name.startsWith('test_runner_abort')) {
+        console.log('no AbortSignal support, skipping', dirent.name)
+        continue
+      }
       const filePath = join(MESSAGE_FOLDER, dirent.name)
       const expected = filePath.replace(/\.m?js$/, '.out')
       const testFile = await fs.open(filePath)
