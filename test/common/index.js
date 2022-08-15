@@ -37,6 +37,30 @@ function mustCall (fn, exact) {
   return _mustCallInner(fn, exact, 'exact')
 }
 
+function getCallSite (top) {
+  const originalStackFormatter = Error.prepareStackTrace
+  Error.prepareStackTrace = (err, stack) => // eslint-disable-line n/handle-callback-err
+    `${stack[0].getFileName()}:${stack[0].getLineNumber()}`
+  const err = new Error()
+  Error.captureStackTrace(err, top)
+  // With the V8 Error API, the stack is not formatted until it is accessed
+  err.stack // eslint-disable-line no-unused-expressions
+  Error.prepareStackTrace = originalStackFormatter
+  return err.stack
+}
+
+function mustNotCall (msg) {
+  const callSite = getCallSite(mustNotCall)
+  return function mustNotCall (...args) {
+    const argsInfo = args.length > 0
+      ? `\ncalled with arguments: ${args.map((arg) => util.inspect(arg)).join(', ')}`
+      : ''
+    assert.fail(
+      `${msg || 'function should not have been called'} at ${callSite}` +
+      argsInfo)
+  }
+}
+
 function _mustCallInner (fn, criteria = 1, field) {
   if (process._exiting) { throw new Error('Cannot use common.mustCall*() in process exit handler') }
   if (typeof fn === 'number') {
@@ -145,5 +169,6 @@ if (typeof AbortSignal !== 'undefined' && (process.version.startsWith('v14.') ||
 module.exports = {
   expectsError,
   isWindow: process.platform === 'win32',
-  mustCall
+  mustCall,
+  mustNotCall
 }

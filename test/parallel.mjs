@@ -10,7 +10,7 @@ const PARALLEL_DIR = new URL('./parallel/', import.meta.url)
 const dir = await fs.opendir(PARALLEL_DIR)
 
 for await (const { name } of dir) {
-  if (!name.endsWith('.js')) continue
+  if (!name.endsWith('.js') && !name.endsWith('.mjs')) continue
   const cp = spawn(
     process.execPath,
     [fileURLToPath(new URL(name, PARALLEL_DIR))],
