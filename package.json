@@ -9,6 +9,7 @@
   "bin": {
     "node--test": "./bin/node--test.js",
     "node--test-only": "./bin/node--test-only.js",
+    "node--test-name-pattern": "./bin/node--test-name-pattern.js",
     "test": "./bin/node-core-test.js"
   },
   "imports": {

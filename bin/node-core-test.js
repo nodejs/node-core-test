@@ -10,8 +10,13 @@ const { argv } = require('#internal/options')
 
 Object.assign(argv, minimist(process.argv.slice(2), {
   boolean: ['test', 'test-only'],
+  string: ['test-name-pattern'],
   default: Object.prototype.hasOwnProperty.call(argv, 'test') ? { test: argv.test } : undefined
 }))
+
+if (typeof argv['test-name-pattern'] === 'string') {
+  argv['test-name-pattern'] = [argv['test-name-pattern']]
+}
 
 process.argv.splice(1, Infinity, ...argv._)
 if (argv.test) {

@@ -13,7 +13,7 @@ const binPath = resolve(__dirname, '..', bin.test)
 const MESSAGE_FOLDER = join(__dirname, './message/')
 const WAIT_FOR_ELLIPSIS = Symbol('wait for ellispis')
 
-const TEST_RUNNER_FLAGS = ['--test', '--test-only']
+const TEST_RUNNER_FLAGS = ['--test', '--test-only', '--test-name-pattern']
 
 function readLines (file) {
   return createInterface({
@@ -109,8 +109,8 @@ const main = async () => {
             )
             .toString().split(' ')
 
-      const nodeFlags = flags.filter(flag => !TEST_RUNNER_FLAGS.includes(flag)).join(' ')
-      const testRunnerFlags = flags.filter(flag => TEST_RUNNER_FLAGS.includes(flag)).join(' ')
+      const nodeFlags = flags.filter(flag => !TEST_RUNNER_FLAGS.find(f => flag.startsWith(f))).join(' ')
+      const testRunnerFlags = flags.filter(flag => TEST_RUNNER_FLAGS.find(f => flag.startsWith(f))).join(' ')
 
       const command = testRunnerFlags.length
         ? `${process.execPath} ${nodeFlags} ${binPath} ${testRunnerFlags} ${filePath}`
