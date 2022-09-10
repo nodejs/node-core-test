@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/1aab13cad9c800f4121c1d35b554b78c1b17bdbd/test/parallel/test-runner-cli.js
+// https://github.com/nodejs/node/blob/a165193c5c8e4bcfbd12b2c3f6e55a81a251c258/test/parallel/test-runner-cli.js
 'use strict'
 require('../common')
 const assert = require('assert')
@@ -105,13 +105,6 @@ const testFixtures = fixtures.path('test-runner')
 //     ['--eval', 'console.log("should not print")', '--test'],
 //     ['--print', 'console.log("should not print")', '--test']
 //   ]
-
-//   if (process.features.inspector) {
-//     flags.push(
-//       // ['--inspect', '--test'],
-//       // ['--inspect-brk', '--test']
-//     )
-//   }
 
 //   flags.forEach((args) => {
 //     const child = spawnSync(process.execPath, args)
