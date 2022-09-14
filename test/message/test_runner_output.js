@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/a3e110820ff98702e1761831e7beaf0f5f1f75e7/test/message/test_runner_output.js
+// https://github.com/nodejs/node/blob/cb7e0c59df10a42cd6930ca7f99d3acee1ce7627/test/message/test_runner_output.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -370,4 +370,16 @@ test('rejected thenable', () => {
       return (_, errorHandler) => errorHandler('custom error')
     }
   }
+})
+
+test('unfinished test with uncaughtException', async () => {
+  await new Promise(() => {
+    setTimeout(() => { throw new Error('foo') })
+  })
+})
+
+test('unfinished test with unhandledRejection', async () => {
+  await new Promise(() => {
+    setTimeout(() => Promise.reject(new Error('bar')))
+  })
 })

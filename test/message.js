@@ -27,6 +27,7 @@ const stackTraceLine = /^\s+\*$/
 const stackTraceEndLine = /^\s+\.\.\.$/
 
 const nodejs14NotEmittedWarn = /^# Warning:.*\breject/
+const nodejs14NotEmittedUnhandledRejection = /'unhandledRejection'/
 
 // https://github.com/nodejs/node/blob/1aab13cad9c800f4121c1d35b554b78c1b17bdbd/test/message/testcfg.py#L53
 async function IsFailureOutput (self, output) {
@@ -38,6 +39,10 @@ async function IsFailureOutput (self, output) {
 
     // Node.js 14 doesn't emit some warnings
     if (process.version.startsWith('v14.') && nodejs14NotEmittedWarn.test(line)) continue
+    if (process.version.startsWith('v14.') && nodejs14NotEmittedUnhandledRejection.test(line)) {
+      patterns.push(WAIT_FOR_ELLIPSIS)
+      continue
+    }
 
     // Sometimes Node.js won't have any stack trace, but we would
     if (stackTraceEndLine.test(line) && patterns[patterns.length - 1].toString().endsWith("code: 'ERR_TEST_FAILURE'$")) {
