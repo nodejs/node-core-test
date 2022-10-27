@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/659dc126932f986fc33c7f1c878cb2b57a1e2fac/test/message/test_runner_hooks.js
+// https://github.com/nodejs/node/blob/a69a30016cf3395b0bd775c1340ab6ecbac58296/test/message/test_runner_hooks.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -16,10 +16,12 @@ describe('describe hooks', () => {
       'before describe hooks',
       'beforeEach 1', '1', 'afterEach 1',
       'beforeEach 2', '2', 'afterEach 2',
+      'beforeEach nested',
       'before nested',
       'beforeEach nested 1', 'nested 1', 'afterEach nested 1',
       'beforeEach nested 2', 'nested 2', 'afterEach nested 2',
       'after nested',
+      'afterEach nested',
       'after describe hooks'
     ])
   })

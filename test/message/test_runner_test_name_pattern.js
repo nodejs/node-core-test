@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/87170c3f9271da947a7b33d0696ec4cf8aab6eb6/test/message/test_runner_test_name_pattern.js
+// https://github.com/nodejs/node/blob/a69a30016cf3395b0bd775c1340ab6ecbac58296/test/message/test_runner_test_name_pattern.js
 // Flags: --no-warnings --test-name-pattern=enabled --test-name-pattern=/pattern/i
 'use strict'
 const common = require('../common')
@@ -35,8 +35,8 @@ test('top level test enabled', common.mustCall(async (t) => {
 
 describe('top level describe enabled', () => {
   before(common.mustCall())
-  beforeEach(common.mustCall(2))
-  afterEach(common.mustCall(2))
+  beforeEach(common.mustCall(4))
+  afterEach(common.mustCall(4))
   after(common.mustCall())
 
   it('nested it disabled', common.mustNotCall())
