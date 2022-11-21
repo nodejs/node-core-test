@@ -368,7 +368,7 @@ expected.
 
 ```mjs
 import assert from 'node:assert';
-import { mock, test } from 'node:test';
+import { mock, test } from 'test';
 test('spies on a function', () => {
   const sum = mock.fn((a, b) => {
     return a + b;
@@ -388,7 +388,7 @@ test('spies on a function', () => {
 ```cjs
 'use strict';
 const assert = require('node:assert');
-const { mock, test } = require('node:test');
+const { mock, test } = require('test');
 test('spies on a function', () => {
   const sum = mock.fn((a, b) => {
     return a + b;
@@ -964,8 +964,7 @@ Emitted when [`context.diagnostic`][] is called.
 ### Event: `'test:fail'`
 
 * `data` {Object}
-  * `duration` {number} The test duration.
-  * `error` {Error} The failure casing test to fail.
+  * `details` {Object} Additional execution metadata.
   * `name` {string} The test name.
   * `testNumber` {number} The ordinal number of the test.
   * `todo` {string|undefined} Present if [`context.todo`][] is called
@@ -976,7 +975,7 @@ Emitted when a test fails.
 ### Event: `'test:pass'`
 
 * `data` {Object}
-  * `duration` {number} The test duration.
+  * `details` {Object} Additional execution metadata.
   * `name` {string} The test name.
   * `testNumber` {number} The ordinal number of the test.
   * `todo` {string|undefined} Present if [`context.todo`][] is called

@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/59527de13d39327eb3dfa8dedc92241eb40066d5/test/parallel/test-runner-run.mjs
+// https://github.com/nodejs/node/blob/f8ce9117b19702487eb600493d941f7876e00e01/test/parallel/test-runner-run.mjs
 
 import common from '../common/index.js'
 import fixtures from '../common/fixtures.js'
@@ -31,7 +31,7 @@ describe('require(\'node:test\').run', { concurrency: true }, () => {
   it('should succeed with a file', async () => {
     const stream = run({ files: [join(testFixtures, 'test/random.cjs')] })
     stream.on('test:fail', common.mustNotCall())
-    stream.on('test:pass', common.mustCall(1))
+    stream.on('test:pass', common.mustCall(2))
     // eslint-disable-next-line no-unused-vars
     for await (const _ of stream); // TODO(MoLow): assert.snapshot
   })
@@ -39,7 +39,7 @@ describe('require(\'node:test\').run', { concurrency: true }, () => {
   it('should run same file twice', async () => {
     const stream = run({ files: [join(testFixtures, 'test/random.cjs'), join(testFixtures, 'test/random.cjs')] })
     stream.on('test:fail', common.mustNotCall())
-    stream.on('test:pass', common.mustCall(2))
+    stream.on('test:pass', common.mustCall(4))
     // eslint-disable-next-line no-unused-vars
     for await (const _ of stream); // TODO(MoLow): assert.snapshot
   })
