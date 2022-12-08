@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/3759935ee29d8042d917d3ceaa768521c14413ff/test/message/test_runner_hooks.js
+// https://github.com/nodejs/node/blob/215c5317d4837287fddb2e3b97872babd53183ac/test/message/test_runner_hooks.js
 // Flags: --no-warnings
 'use strict'
 const common = require('../common')
@@ -91,6 +91,8 @@ describe('afterEach throws and test fails', () => {
 
 test('test hooks', async (t) => {
   const testArr = []
+
+  t.after(common.mustCall((t) => testArr.push('after ' + t.name)))
   t.beforeEach((t) => testArr.push('beforeEach ' + t.name))
   t.afterEach((t) => testArr.push('afterEach ' + t.name))
   await t.test('1', () => testArr.push('1'))
@@ -114,25 +116,29 @@ test('test hooks', async (t) => {
 })
 
 test('t.beforeEach throws', async (t) => {
+  t.after(common.mustCall())
   t.beforeEach(() => { throw new Error('beforeEach') })
   await t.test('1', () => {})
   await t.test('2', () => {})
 })
 
 test('t.afterEach throws', async (t) => {
+  t.after(common.mustCall())
   t.afterEach(() => { throw new Error('afterEach') })
   await t.test('1', () => {})
   await t.test('2', () => {})
 })
 
 test('afterEach when test fails', async (t) => {
+  t.after(common.mustCall())
   t.afterEach(common.mustCall(2))
   await t.test('1', () => { throw new Error('test') })
   await t.test('2', () => {})
 })
 
 test('afterEach throws and test fails', async (t) => {
-  afterEach(() => { throw new Error('afterEach') })
+  t.after(common.mustCall())
+  t.afterEach(() => { throw new Error('afterEach') })
   await t.test('1', () => { throw new Error('test') })
   await t.test('2', () => {})
 })
