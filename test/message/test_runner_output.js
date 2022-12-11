@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/cb7e0c59df10a42cd6930ca7f99d3acee1ce7627/test/message/test_runner_output.js
+// https://github.com/nodejs/node/blob/22dc987fde29734c5bcbb7c33da20d184ff61627/test/message/test_runner_output.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -214,7 +214,7 @@ test('test with a name and options provided', { skip: true })
 test({ skip: true }, function functionAndOptions () {})
 
 // A test whose description needs to be escaped.
-test('escaped description \\ # \\#\\')
+test('escaped description \\ # \\#\\ \n \t \f \v \b \r')
 
 // A test whose skip message needs to be escaped.
 test('escaped skip message', { skip: '#skip' })
