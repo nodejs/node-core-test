@@ -65,9 +65,9 @@ export function test(
   options?: TestOptions,
   fn?: TestFn
 ): Promise<void>;
-export function test(name?: string, fn?: TestFn): Promise<void>;
-export function test(options?: TestOptions, fn?: TestFn): Promise<void>;
-export function test(fn?: TestFn): Promise<void>;
+export function test(name: string, fn?: TestFn): Promise<void>;
+export function test(options: TestOptions, fn?: TestFn): Promise<void>;
+export function test(fn: TestFn): Promise<void>;
 
 type SuiteFn = (t: SuiteContext) => void;
 
@@ -87,9 +87,9 @@ export function describe(
   options?: TestOptions,
   fn?: SuiteFn
 ): void;
-export function describe(name?: string, fn?: SuiteFn): void;
-export function describe(options?: TestOptions, fn?: SuiteFn): void;
-export function describe(fn?: SuiteFn): void;
+export function describe(name: string, fn?: SuiteFn): void;
+export function describe(options: TestOptions, fn?: SuiteFn): void;
+export function describe(fn: SuiteFn): void;
 
 type ItFn = (done: (result?: any) => void) => any;
 
@@ -104,9 +104,9 @@ type ItFn = (done: (result?: any) => void) => any;
  * @returns `undefined`
  */
 export function it(name?: string, options?: TestOptions, fn?: ItFn): void;
-export function it(name?: string, fn?: ItFn): void;
-export function it(options?: TestOptions, fn?: ItFn): void;
-export function it(fn?: ItFn): void;
+export function it(name: string, fn?: ItFn): void;
+export function it(options: TestOptions, fn?: ItFn): void;
+export function it(fn: ItFn): void;
 
 type HookFn = (done: (result?: any) => void) => any;
 
