@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/215c5317d4837287fddb2e3b97872babd53183ac/test/message/test_runner_hooks.js
+// https://github.com/nodejs/node/blob/385d595a4f1d887f6d4221e6071571132498d57c/test/message/test_runner_hooks.js
 // Flags: --no-warnings
 'use strict'
 const common = require('../common')
@@ -141,4 +141,11 @@ test('afterEach throws and test fails', async (t) => {
   t.afterEach(() => { throw new Error('afterEach') })
   await t.test('1', () => { throw new Error('test') })
   await t.test('2', () => {})
+})
+
+test('t.after() is called if test body throws', (t) => {
+  t.after(() => {
+    t.diagnostic('- after() called')
+  })
+  throw new Error('bye')
 })
