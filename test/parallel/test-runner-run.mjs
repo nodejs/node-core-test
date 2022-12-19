@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/f8ce9117b19702487eb600493d941f7876e00e01/test/parallel/test-runner-run.mjs
+// https://github.com/nodejs/node/blob/a1b27b25bb01aadd3fd2714e4b136db11b7eb85a/test/parallel/test-runner-run.mjs
 
 import common from '../common/index.js'
 import fixtures from '../common/fixtures.js'
@@ -13,7 +13,6 @@ const testFixtures = fixtures.path('test-runner')
 describe('require(\'node:test\').run', { concurrency: true }, () => {
   it('should run with no tests', async () => {
     const stream = run({ files: [] })
-    stream.setEncoding('utf8')
     stream.on('test:fail', common.mustNotCall())
     stream.on('test:pass', common.mustNotCall())
     // eslint-disable-next-line no-unused-vars

@@ -24,8 +24,7 @@ Differences from the core implementation:
 
 <!-- source_link=lib/test.js -->
 
-The `node:test` module facilitates the creation of JavaScript tests that
-report results in [TAP][] format. This package is a port of `node:test`.
+The `node:test` module facilitates the creation of JavaScript tests.
 To access it:
 
 ```mjs
@@ -99,9 +98,7 @@ test('callback failing test', (t, done) => {
 })
 ```
 
-As a test file executes, TAP is written to the standard output of the Node.js
-process. This output can be interpreted by any test harness that understands
-the TAP format. If any tests fail, the process exit code is set to `1`.
+If any tests fail, the process exit code is set to `1`.
 
 #### Subtests
 
@@ -130,8 +127,7 @@ test to fail.
 ## Skipping tests
 
 Individual tests can be skipped by passing the `skip` option to the test, or by
-calling the test context's `skip()` method. Both of these options support
-including a message that is displayed in the TAP output as shown in the
+calling the test context's `skip()` method as shown in the
 following example.
 
 ```js
@@ -265,7 +261,7 @@ Test name patterns do not change the set of files that the test runner executes.
 
 ## Extraneous asynchronous activity
 
-Once a test function finishes executing, the TAP results are output as quickly
+Once a test function finishes executing, the results are reported as quickly
 as possible while maintaining the order of the tests. However, it is possible
 for the test function to generate asynchronous activity that outlives the test
 itself. The test runner handles this type of activity, but does not delay the
@@ -274,13 +270,13 @@ reporting of test results in order to accommodate it.
 In the following example, a test completes with two `setImmediate()`
 operations still outstanding. The first `setImmediate()` attempts to create a
 new subtest. Because the parent test has already finished and output its
-results, the new subtest is immediately marked as failed, and reported in the
-top level of the file's TAP output.
+results, the new subtest is immediately marked as failed, and reported later
+to the {TestsStream}.
 
 The second `setImmediate()` creates an `uncaughtException` event.
 `uncaughtException` and `unhandledRejection` events originating from a completed
 test are marked as failed by the `test` module and reported as diagnostic
-warnings in the top level of the file's TAP output.
+warnings at the top level by the {TestsStream}.
 
 ```js
 test('a test that creates asynchronous activity', t => {
@@ -431,6 +427,163 @@ test('spies on an object method', (t) => {
 });
 ```
 
+
+## Test reporters
+
+<!-- YAML
+added: REPLACEME
+-->
+
+The `node:test` module supports passing [`--test-reporter`][]
+flags for the test runner to use a specific reporter.
+
+The following built-reporters are supported:
+
+* `tap`
+  The `tap` reporter is the default reporter used by the test runner. It outputs
+  the test results in the [TAP][] format.
+
+* `spec`
+  The `spec` reporter outputs the test results in a human-readable format.
+
+* `dot`
+  The `dot` reporter outputs the test results in a comact format,
+  where each passing test is represented by a `.`,
+  and each failing test is represented by a `X`.
+
+### Custom reporters
+
+[`--test-reporter`][] can be used to specify a path to custom reporter.
+a custom reporter is a module that exports a value
+accepted by [stream.compose][].
+Reporters should transform events emitted by a {TestsStream}
+
+Example of a custom reporter using {stream.Transform}:
+
+```mjs
+import { Transform } from 'node:stream';
+const customReporter = new Transform({
+  writableObjectMode: true,
+  transform(event, encoding, callback) {
+    switch (event.type) {
+      case 'test:start':
+        callback(null, `test ${event.data.name} started`);
+        break;
+      case 'test:pass':
+        callback(null, `test ${event.data.name} passed`);
+        break;
+      case 'test:fail':
+        callback(null, `test ${event.data.name} failed`);
+        break;
+      case 'test:plan':
+        callback(null, 'test plan');
+        break;
+      case 'test:diagnostic':
+        callback(null, event.data.message);
+        break;
+    }
+  },
+});
+export default customReporter;
+```
+
+```cjs
+const { Transform } = require('node:stream');
+const customReporter = new Transform({
+  writableObjectMode: true,
+  transform(event, encoding, callback) {
+    switch (event.type) {
+      case 'test:start':
+        callback(null, `test ${event.data.name} started`);
+        break;
+      case 'test:pass':
+        callback(null, `test ${event.data.name} passed`);
+        break;
+      case 'test:fail':
+        callback(null, `test ${event.data.name} failed`);
+        break;
+      case 'test:plan':
+        callback(null, 'test plan');
+        break;
+      case 'test:diagnostic':
+        callback(null, event.data.message);
+        break;
+    }
+  },
+});
+module.exports = customReporter;
+```
+
+Example of a custom reporter using a generator function:
+
+```mjs
+export default async function * customReporter(source) {
+  for await (const event of source) {
+    switch (event.type) {
+      case 'test:start':
+        yield `test ${event.data.name} started\n`;
+        break;
+      case 'test:pass':
+        yield `test ${event.data.name} passed\n`;
+        break;
+      case 'test:fail':
+        yield `test ${event.data.name} failed\n`;
+        break;
+      case 'test:plan':
+        yield 'test plan';
+        break;
+      case 'test:diagnostic':
+        yield `${event.data.message}\n`;
+        break;
+    }
+  }
+}
+```
+
+```cjs
+module.exports = async function * customReporter(source) {
+  for await (const event of source) {
+    switch (event.type) {
+      case 'test:start':
+        yield `test ${event.data.name} started\n`;
+        break;
+      case 'test:pass':
+        yield `test ${event.data.name} passed\n`;
+        break;
+      case 'test:fail':
+        yield `test ${event.data.name} failed\n`;
+        break;
+      case 'test:plan':
+        yield 'test plan\n';
+        break;
+      case 'test:diagnostic':
+        yield `${event.data.message}\n`;
+        break;
+    }
+  }
+};
+```
+
+### Multiple reporters
+
+The [`--test-reporter`][] flag can be specified multiple times to report test
+results in several formats. In this situation
+it is required to specify a destination for each reporter
+using [`--test-reporter-destination`][].
+Destination can be `stdout`, `stderr`, or a file path.
+Reporters and destinations are paired according
+to the order they were specified.
+
+In the following example, the `spec` reporter will output to `stdout`,
+and the `dot` reporter will output to `file.txt`:
+
+```bash
+node --test-reporter=spec --test-reporter=dot --test-reporter-destination=stdout --test-reporter-destination=file.txt
+```
+
+When a single reporter is specified, the destination will default to `stdout`,
+unless a destination is explicitly provided.
+
 ## `run([options])`
 
 <!-- YAML
@@ -459,7 +612,7 @@ added: REPLACEME
     incremented from the primary's `process.debugPort`.
     **Default:** `undefined`.
     
-* Returns: {TapStream}
+* Returns: {TestsStream}
 
 ```js
 run({ files: [path.resolve('./tests/test.js')] })
@@ -501,12 +654,11 @@ run({ files: [path.resolve('./tests/test.js')] })
 - Returns: {Promise} Resolved with `undefined` once the test completes.
 
 The `test()` function is the value imported from the `test` module. Each
-invocation of this function results in the creation of a test point in the TAP
-output.
+invocation of this function results in reporting the test to the {TestsStream}.
 
 The `TestContext` object passed to the `fn` argument can be used to perform
 actions related to the current test. Examples include skipping the test, adding
-additional TAP diagnostic information, or creating subtests.
+additional diagnostic information, or creating subtests.
 
 `test()` returns a `Promise` that resolves once the test completes. The return
 value can usually be discarded for top level tests. However, the return value
@@ -545,8 +697,7 @@ thus prevent the scheduled cancellation.
 * Returns: `undefined`.
 
 The `describe()` function imported from the `test` module. Each
-invocation of this function results in the creation of a Subtest
-and a test point in the TAP output.
+invocation of this function results in the creation of a Subtest.
 After invocation of top level `describe` functions,
 all top level tests and suites will execute.
 
@@ -572,8 +723,6 @@ Shorthand for marking a suite as `TODO`, same as
 * Returns: `undefined`.
 
 The `it()` function is the value imported from the `test` module.
-Each invocation of this function results in the creation of a test point in the
-TAP output.
 
 ## `it.skip([name][, options][, fn])`
 
@@ -961,7 +1110,7 @@ added: REPLACEME
 This function is syntax sugar for [`MockTracker.method`][] with `options.setter`
 set to `true`.
 
-## Class: `TapStream`
+## Class: `TestsStream`
 
 <!-- YAML
 added: REPLACEME
@@ -969,13 +1118,15 @@ added: REPLACEME
 
 * Extends {ReadableStream}
 
-A successful call to [`run()`][] method will return a new {TapStream}
-object, streaming a [TAP][] output
-`TapStream` will emit events, in the order of the tests definition
+A successful call to [`run()`][] method will return a new {TestsStream}
+object, streaming a series of events representing the execution of the tests.
+`TestsStream` will emit events, in the order of the tests definition
 
 ### Event: `'test:diagnostic'`
 
-* `message` {string} The diagnostic message.
+* `data` {Object}
+  * `message` {string} The diagnostic message.
+  * `nesting` {number} The nesting level of the test.
 
 Emitted when [`context.diagnostic`][] is called.
 
@@ -983,10 +1134,13 @@ Emitted when [`context.diagnostic`][] is called.
 
 * `data` {Object}
   * `details` {Object} Additional execution metadata.
+    * `duration` {number} The duration of the test in milliseconds.
+    * `error` {Error} The error thrown by the test.
   * `name` {string} The test name.
+  * `nesting` {number} The nesting level of the test.
   * `testNumber` {number} The ordinal number of the test.
-  * `todo` {string|undefined} Present if [`context.todo`][] is called
-  * `skip` {string|undefined} Present if [`context.skip`][] is called
+  * `todo` {string|boolean|undefined} Present if [`context.todo`][] is called
+  * `skip` {string|boolean|undefined} Present if [`context.skip`][] is called
 
 Emitted when a test fails.
 
@@ -994,12 +1148,30 @@ Emitted when a test fails.
 
 * `data` {Object}
   * `details` {Object} Additional execution metadata.
+    * `duration` {number} The duration of the test in milliseconds.
   * `name` {string} The test name.
+  * `nesting` {number} The nesting level of the test.
   * `testNumber` {number} The ordinal number of the test.
-  * `todo` {string|undefined} Present if [`context.todo`][] is called
-  * `skip` {string|undefined} Present if [`context.skip`][] is called
+  * `todo` {string|boolean|undefined} Present if [`context.todo`][] is called
+  * `skip` {string|boolean|undefined} Present if [`context.skip`][] is called
 
 Emitted when a test passes.
+
+### Event: `'test:plan'`
+
+* `data` {Object}
+  * `nesting` {number} The nesting level of the test.
+  * `count` {number} The number of subtests that have ran.
+
+Emitted when all subtests have completed for a given test.
+
+### Event: `'test:start'`
+
+* `data` {Object}
+  * `name` {string} The test name.
+  * `nesting` {number} The nesting level of the test.
+
+Emitted when a test starts.
 
 ## Class: `TestContext`
 
@@ -1092,9 +1264,9 @@ test('top level test', async (t) => {
 
 ### `context.diagnostic(message)`
 
-- `message` {string} Message to be displayed as a TAP diagnostic.
+- `message` {string}Message to be reported.
 
-This function is used to write TAP diagnostics to the output. Any diagnostic
+This function is used to write diagnostics to the output. Any diagnostic
 information is included at the end of the test's results. This function does
 not return a value.
 
@@ -1128,19 +1300,19 @@ test('top level test', async (t) => {
 
 ### `context.skip([message])`
 
-- `message` {string} Optional skip message to be displayed in TAP output.
+* `message` {string} Optional skip message.
 
 This function causes the test's output to indicate the test as skipped. If
-`message` is provided, it is included in the TAP output. Calling `skip()` does
+`message` is provided, it is included in the output. Calling `skip()` does
 not terminate execution of the test function. This function does not return a
 value.
 
 ### `context.todo([message])`
 
-- `message` {string} Optional `TODO` message to be displayed in TAP output.
+* `message` {string} Optional `TODO` message.
 
 This function adds a `TODO` directive to the test's output. If `message` is
-provided, it is included in the TAP output. Calling `todo()` does not terminate
+provided, it is included in the output. Calling `todo()` does not terminate
 execution of the test function. This function does not return a value.
 
 ### `context.test([name][, options][, fn])`

@@ -165,6 +165,4 @@ const testFixtures = fixtures.path('test-runner')
   assert.match(stdout, / {6}error: 'level 0b error'/)
   assert.match(stdout, /not ok 3 - .+nested\.js/)
   assert.match(stdout, /# tests 3/)
-  assert.match(stdout, /# pass 2/)
-  assert.match(stdout, /# fail 1/)
 }

@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/22dc987fde29734c5bcbb7c33da20d184ff61627/test/message/test_runner_output.js
+// https://github.com/nodejs/node/blob/a1b27b25bb01aadd3fd2714e4b136db11b7eb85a/test/message/test_runner_output.js
 // Flags: --no-warnings
 'use strict'
 require('../common')
@@ -114,7 +114,7 @@ test('level 0a', { concurrency: 4 }, async (t) => {
     const p1a = new Promise((resolve) => {
       setTimeout(() => {
         resolve()
-      }, 1000)
+      }, 100)
     })
 
     return p1a
@@ -132,7 +132,7 @@ test('level 0a', { concurrency: 4 }, async (t) => {
     const p1c = new Promise((resolve) => {
       setTimeout(() => {
         resolve()
-      }, 2000)
+      }, 200)
     })
 
     return p1c
@@ -142,7 +142,7 @@ test('level 0a', { concurrency: 4 }, async (t) => {
     const p1c = new Promise((resolve) => {
       setTimeout(() => {
         resolve()
-      }, 1500)
+      }, 150)
     })
 
     return p1c
@@ -151,7 +151,7 @@ test('level 0a', { concurrency: 4 }, async (t) => {
   const p0a = new Promise((resolve) => {
     setTimeout(() => {
       resolve()
-    }, 3000)
+    }, 300)
   })
 
   return p0a
@@ -160,7 +160,7 @@ test('level 0a', { concurrency: 4 }, async (t) => {
 test('top level', { concurrency: 2 }, async (t) => {
   t.test('+long running', async (t) => {
     return new Promise((resolve, reject) => {
-      setTimeout(resolve, 3000).unref()
+      setTimeout(resolve, 300).unref()
     })
   })
 
@@ -332,12 +332,12 @@ test('subtest sync throw fails', async (t) => {
 
 test('timed out async test', { timeout: 5 }, async (t) => {
   return new Promise((resolve) => {
-    setTimeout(resolve, 1000)
+    setTimeout(resolve, 100)
   })
 })
 
 test('timed out callback test', { timeout: 5 }, (t, done) => {
-  setTimeout(done, 1000)
+  setTimeout(done, 100)
 })
 
 test('large timeout async test is ok', { timeout: 30_000_000 }, async (t) => {
