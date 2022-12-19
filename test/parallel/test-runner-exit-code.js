@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/26e27424ad91c60a44d3d4c58b62a39b555ba75d/test/parallel/test-runner-exit-code.js
+// https://github.com/nodejs/node/blob/a1b27b25bb01aadd3fd2714e4b136db11b7eb85a/test/parallel/test-runner-exit-code.js
 'use strict'
 const common = require('../common')
 const fixtures = require('../common/fixtures')
@@ -21,8 +21,7 @@ async function runAndKill (file) {
   })
   const [code, signal] = await once(child, 'exit')
   await finished(child.stdout)
-  assert.match(stdout, /not ok 1/)
-  assert.match(stdout, /# cancelled 1\n/)
+  assert.strictEqual(stdout, 'TAP version 13\n')
   assert.strictEqual(signal, null)
   assert.strictEqual(code, 1)
 }

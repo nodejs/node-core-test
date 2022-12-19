@@ -13,7 +13,7 @@ const binPath = resolve(__dirname, '..', bin.test)
 const MESSAGE_FOLDER = join(__dirname, './message/')
 const WAIT_FOR_ELLIPSIS = Symbol('wait for ellispis')
 
-const TEST_RUNNER_FLAGS = ['--test', '--test-only', '--test-name-pattern']
+const TEST_RUNNER_FLAGS = ['--test', '--test-only', '--test-name-pattern', '--test-reporter', '--test-reporter-destination']
 
 function readLines (file) {
   return createInterface({
@@ -23,14 +23,15 @@ function readLines (file) {
 }
 
 const stackTraceStartLine = /^\s+stack: \|-$/
+const errorStartLine = /^\s+Error: /
 const stackTraceLine = /^\s+\*$/
 const stackTraceEndLine = /^\s+\.\.\.$/
 
 const nodejs14NotEmittedWarn = /^# Warning:.*\breject/
-const nodejs14NotEmittedUnhandledRejection = /'unhandledRejection'/
+const nodejs14NotEmittedUnhandledRejection = /unhandledRejection/
 
 // https://github.com/nodejs/node/blob/1aab13cad9c800f4121c1d35b554b78c1b17bdbd/test/message/testcfg.py#L53
-async function IsFailureOutput (self, output) {
+async function IsFailureOutput (self, output, filename) {
   // Convert output lines to regexps that we can match
   const patterns = []
   for await (const line of readLines(self.expected)) {
@@ -54,7 +55,7 @@ async function IsFailureOutput (self, output) {
       .replace(/\\\*/g, '.*')
     patterns.push(`^${pattern}$`)
 
-    if (stackTraceStartLine.test(line)) {
+    if (stackTraceStartLine.test(line) || (filename === 'test_runner_output_spec_reporter.js' && errorStartLine.test(line))) {
       // Our implementation outputs different stack traces than the Node.js implementation.
       patterns.push(WAIT_FOR_ELLIPSIS)
     }
@@ -69,7 +70,7 @@ async function IsFailureOutput (self, output) {
     let regex
     if (patterns[i] === WAIT_FOR_ELLIPSIS) {
       waitingForEllipsis = true
-    } else if (!(regex = new RegExp(patterns[i])).test(outlines[i]) && !regex.test(outlines[i].trimEnd())) {
+    } else if (!(regex = new RegExp(patterns[i])).test(outlines[i].replace(/\r/, '')) && !regex.test(outlines[i].replace(/\r/, '').trimEnd())) {
       if (waitingForEllipsis) {
         patterns.splice(i, 0, WAIT_FOR_ELLIPSIS)
         continue
@@ -126,7 +127,7 @@ const main = async () => {
         stdout = err.stdout.trim()
         stderr = err.stderr.trim()
       }
-      if (await IsFailureOutput({ expected }, { stdout, stderr })) {
+      if (await IsFailureOutput({ expected }, { stdout, stderr }, dirent.name)) {
         throw new Error()
       }
       console.log('pass')
