@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/a1b27b25bb01aadd3fd2714e4b136db11b7eb85a/test/parallel/test-runner-reporters.js
+// https://github.com/nodejs/node/blob/12c0571c8fece32d274eaf0ae197c0eb1948fe11/test/parallel/test-runner-reporters.js
 'use strict'
 
 require('../common')
@@ -91,10 +91,12 @@ describe('node:test reporters', { concurrency: true }, () => {
     it(`should support a '${ext}' file as a custom reporter`, async () => {
       const filename = `custom.${ext}`
       const child = spawnSync(process.execPath,
-        ['--test', '--test-reporter', fixtures.path('test-runner/custom_reporters/', filename),
+        ['--test', '--test-reporter', fixtures.fileURL('test-runner/custom_reporters/', filename),
           testFile])
       assert.strictEqual(child.stderr.toString(), '')
-      assert.strictEqual(child.stdout.toString(), `${filename} {"test:start":5,"test:pass":2,"test:fail":3,"test:plan":3,"test:diagnostic":7}`)
+      const stdout = child.stdout.toString()
+      assert.match(stdout, /{"test:start":5,"test:pass":2,"test:fail":3,"test:plan":3,"test:diagnostic":\d+}$/)
+      assert.strictEqual(stdout.slice(0, filename.length + 2), `${filename} {`)
     })
   })
 })
