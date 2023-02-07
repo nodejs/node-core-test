@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "minimist": "^1.2.6",
+    "readable-stream": "^4.3.0",
     "string.prototype.replaceall": "^1.0.6"
   }
 }
