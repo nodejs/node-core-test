@@ -5,7 +5,7 @@ const common = require('../common')
 const assert = require('node:assert')
 const { TapParser } = require('#internal/test_runner/tap_parser')
 const { TapChecker } = require('#internal/test_runner/tap_checker')
-const { toArray } = require('#internal/streams/operators').promiseReturningOperators
+const { toArray } = require('readable-stream/lib/internal/streams/operators').promiseReturningOperators
 
 const cases = [
   {
