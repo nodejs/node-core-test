@@ -1,5 +1,41 @@
 # Changelog
 
+## [3.3.0](https://github.com/nodejs/node-core-test/compare/v3.2.1...v3.3.0) (2023-02-08)
+
+
+### Features
+
+* add --test-name-pattern CLI flag ([c5fd64c](https://github.com/nodejs/node-core-test/commit/c5fd64cc2e2e22b35fd6c94d30dac34f281067ab))
+* add extra fields in AssertionError YAML ([46dce07](https://github.com/nodejs/node-core-test/commit/46dce07d74b47a6d1a06eba2153c850db733b08d))
+* add getter and setter to MockTracker ([b942f93](https://github.com/nodejs/node-core-test/commit/b942f93b5bfd70ad8f245c94048cfaffda4ee56a))
+* add initial TAP parser ([5f8ce61](https://github.com/nodejs/node-core-test/commit/5f8ce617ddfa0feb41f52cdcc84e15eb4b59805d))
+* add reporters ([1ec1348](https://github.com/nodejs/node-core-test/commit/1ec13482c663557c738311fa502eb29781c57287))
+* add t.after() hook ([71b659e](https://github.com/nodejs/node-core-test/commit/71b659e171f9150f0c7737ce6ebce6bacee87d2d))
+* parse yaml ([d1343a7](https://github.com/nodejs/node-core-test/commit/d1343a7074dd5ff1d9afaaf496f450b24c7f35d1))
+* report `file` in test runner events ([10d6603](https://github.com/nodejs/node-core-test/commit/10d6603cf8710fd74ba4ed8e91674067193a13ee))
+* support function mocking ([2e499ee](https://github.com/nodejs/node-core-test/commit/2e499ee084d2f5c10b5b8405904c397ad1eb517f))
+* support programmatically running `--test` ([d885ee2](https://github.com/nodejs/node-core-test/commit/d885ee2860aff8098fff41c184081f3577f80b34))
+* support using `--inspect` with `--test` ([6755536](https://github.com/nodejs/node-core-test/commit/6755536a5a94653de26be4dca1c0c6003217031f))
+* verbous error when entire test tree is canceled ([012acb0](https://github.com/nodejs/node-core-test/commit/012acb04de00cdcf4dcbbb86a8c50fc27a112dcf))
+
+
+### Bug Fixes
+
+* avoid swallowing of asynchronously thrown errors ([cff397a](https://github.com/nodejs/node-core-test/commit/cff397a46139411528314d5a9399ae12e1b48660))
+* call {before,after}Each() on suites ([0bfdb77](https://github.com/nodejs/node-core-test/commit/0bfdb77aeeb913aac43c5cac2c5333d42fde558b))
+* don't use a symbol for runHook() ([b3b384e](https://github.com/nodejs/node-core-test/commit/b3b384e59bac89830dc188611e527b341d062d28))
+* fix `duration_ms` to be milliseconds ([27241c3](https://github.com/nodejs/node-core-test/commit/27241c3cd27ab4321ee8177ec1d44a49c261dd42))
+* fix afterEach not running on test failures ([f2815af](https://github.com/nodejs/node-core-test/commit/f2815afc2ff26902d027c0dba85eed773040c1a2))
+* fix missing test diagnostics ([b5b3f0b](https://github.com/nodejs/node-core-test/commit/b5b3f0bebb1bbc4fb1d4f2be6262722262f877ef))
+* fix tap parser fails if a test logs a number ([66da6fe](https://github.com/nodejs/node-core-test/commit/66da6feed4dd30b9c631b4e12b5ea3676af0fe83))
+* include stack of uncaught exceptions ([c50f844](https://github.com/nodejs/node-core-test/commit/c50f8448b6eb0466fbb8bdde7b1edbe4c2c9a9ee))
+* make built in reporters internal ([b6177a4](https://github.com/nodejs/node-core-test/commit/b6177a4c24190d366bb3c62abc1e9f1f092b57cd))
+* move test reporter loading ([a5e0e9e](https://github.com/nodejs/node-core-test/commit/a5e0e9e4d873ee2e91fe8a3f5b4c2018dbfb01c7))
+* remove stdout and stderr from error ([5ba2500](https://github.com/nodejs/node-core-test/commit/5ba2500c4bd30cf4246a0927f7dc1e25c4280a67))
+* report tap subtest in order ([08269c5](https://github.com/nodejs/node-core-test/commit/08269c5d1d213ceb8ef9c0ab0c56172835c76d8f))
+* run t.after() if test body throws ([c80e426](https://github.com/nodejs/node-core-test/commit/c80e426984408b2ef131ad05e2beb61715482046))
+* top-level diagnostics not ommited when running with --test ([d6f071a](https://github.com/nodejs/node-core-test/commit/d6f071a94bfad8baefae71bd34fcf72a605a8460))
+
 ## [3.2.1](https://github.com/nodejs/node-core-test/compare/v3.2.0...v3.2.1) (2022-08-03)
 
 
