@@ -801,7 +801,7 @@ before each subtest of the current suite.
 
 ```js
 describe('tests', async () => {
-  beforeEach(() => t.diagnostics('about to run a test'));
+  beforeEach(() => console.log('about to run a test'));
   it('is a subtest', () => {
     assert.ok('some relevant assertion here');
   });
@@ -826,7 +826,7 @@ after each subtest of the current test.
 
 ```js
 describe('tests', async () => {
-  afterEach(() => t.diagnostics('about to run a test'));
+  afterEach(() => console.log('about to run a test'));
   it('is a subtest', () => {
     assert.ok('some relevant assertion here');
   });
